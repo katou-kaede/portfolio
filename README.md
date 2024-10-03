@@ -46,3 +46,6 @@ MVPリリース：
 
 ■機能の実装方針予定
 ・LINE通知機能：https://github.com/line/line-bot-sdk-ruby
+
+■画面遷移図
+Figma：https://www.figma.com/design/wUiWWk80G99q1SMMyMA9Xo/portfolio?node-id=9-52&node-type=canvas&t=Nuj3TFeS8vPFE6CS-0
