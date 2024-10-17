@@ -18,7 +18,11 @@
   </head>
 
   <body>
-    <%= render 'shared/header_logged_in' %>
+    <% if user_signed_in? %>
+      <%= render 'shared/header_logged_in' %>
+    <% else %>
+      <%= render 'shared/header_logged_out' %>
+    <% end %>
     <%= yield %>
     <%= render 'shared/footer' %>
   </body>

@@ -12,11 +12,12 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # POST /resource
   def create
     super do |resource|
-      @user.create_profile(profile_params)
-      # redirect_to イベント一覧, success: 'ユーザー登録が完了しました'
-    else
-      flash.now[:danger] = 'ユーザー登録に失敗しました'
-      render :new, status: :unprocessable_entity
+      if resource.persisted? # ユーザーが正常に保存されたかチェック
+        flash[:success] = 'ユーザー登録が完了しました'
+      else
+        flash.now[:danger] = 'ユーザー登録に失敗しました'
+        render :new, status: :unprocessable_entity
+      end
     end
   end
 
