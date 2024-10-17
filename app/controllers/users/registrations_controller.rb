@@ -16,7 +16,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
         flash[:success] = 'ユーザー登録が完了しました'
       else
         flash.now[:danger] = 'ユーザー登録に失敗しました'
-        render :new, status: :unprocessable_entity
+        # render :new, status: :unprocessable_entity
       end
     end
   end
