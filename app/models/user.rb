@@ -5,14 +5,14 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
   has_one :profile, dependent: :destroy
-  # accepts_nested_attributes_for :profile
+  accepts_nested_attributes_for :profile
 
   # ユーザー作成後にプロフィールを作成
-  after_create :create_profile
+  # after_create :create_profile
 
-  private
+  # private
 
-  def create_profile
-    Profile.create(user: self)
-  end
+  # def create_profile
+    # Profile.create(user: self, name: self.profile_attributes[:name]) if self.profile_attributes.present?
+  # end
 end

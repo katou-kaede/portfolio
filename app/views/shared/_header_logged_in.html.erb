@@ -22,7 +22,7 @@
                     <li>
                         <a href="#" class="nav-link text-white d-flex flex-column align-items-center dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="bi bi-person-circle d-block mx-auto mb-1" style="font-size: 1.5rem;"></i>
-                            マイページ
+                            <%= current_user.profile.name if user_signed_in? %>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDropdown">
                             <li>
