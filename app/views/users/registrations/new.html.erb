@@ -1,6 +1,6 @@
 <div class="d-flex align-items-center py-4 bg-body-tertiary">
   <div class="form-signin w-90 m-auto">
-    <h2 class="h3 mb-3 fw-normal">Sign up</h2>
+    <h2 class="h3 mb-3 fw-normal">新規登録</h2>
 
     <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
       <%= render "users/shared/error_messages", resource: resource %>
@@ -25,13 +25,13 @@
 
       <div class="field mb-3">
         <%= f.fields_for :profile do |profile_form| %>
-          <%= profile_form.label :name, "Name" %><br />
+          <%= profile_form.label :name,  "名前" %><br />
           <%= profile_form.text_field :name, class: "form-control" %>  <!-- Profileのnameに関連付け -->
         <% end %>
       </div>
 
       <div class="actions">
-        <button class="btn btn-primary w-100 py-2" type="submit">Sign up</button>
+        <button class="btn btn-primary w-100 py-2" type="submit">登録</button>
       </div>
     <% end %>
 
