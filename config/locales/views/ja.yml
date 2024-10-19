@@ -1,0 +1,12 @@
+ja:
+  devise:
+    failure:
+      user:
+        not_found_in_database: "ログインに失敗しました"
+        invalid: "ログインに失敗しました"
+    registrations:
+      user:
+        signed_up: "ユーザー登録が完了しました"
+    sessions:
+      user:
+        signed_in: "ログインしました"

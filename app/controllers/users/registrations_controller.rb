@@ -13,9 +13,9 @@ class Users::RegistrationsController < Devise::RegistrationsController
   def create
     super do |resource|
       if resource.persisted? # ユーザーが正常に保存されたかチェック
-        flash[:success] = 'ユーザー登録が完了しました'
+        flash[:notice] = 'ユーザー登録が完了しました'
       else
-        flash.now[:danger] = 'ユーザー登録に失敗しました'
+        flash.now[:alert] = 'ユーザー登録に失敗しました'
         # render :new, status: :unprocessable_entity
       end
     end
@@ -33,7 +33,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   # DELETE /resource
   # def destroy
-  #   super
+    # super
   # end
 
   # GET /resource/cancel
