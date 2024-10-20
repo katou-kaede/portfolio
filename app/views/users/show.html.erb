@@ -1,0 +1,51 @@
+<div class="container-fluid bg-body-tertiary min-vh-100">
+    <div class="row mx-4">
+        <h2 class="col-12 my-4">マイページ</h2>
+        <div class="col-12 mb-4">
+            <div class="d-flex justify-content-between align-items-center">
+                <div class="bg-white p-4 d-flex col-10">
+                    <div class="mx-4">
+                        <% if @profile.avatar.present? %>
+                            <img src="<%= @profile.avatar %>" alt="User Avatar" class="rounded-circle" style="width: 100px; height: 100px;">
+                        <% else %>
+                            <div class="rounded-circle bg-secondary" style="width: 100px; height: 100px;"></div>
+                        <% end %>
+                    </div>
+                    <div class="d-flex flex-column mx-4 justify-content-between">
+                        <div class="d-flex">
+                            <h5 class="card-text fw-normal"><%= @profile.name %></h5>
+                            <p class="card-text mx-4">年齢: <%= age(@profile.birthday) %>歳</p>
+                            <p class="card-text">誕生日: <%= @profile.birthday %></p>
+                        </div>
+                        <div>
+                            <p class="card-text">ひとこと: <%= @profile.bio.present? ? @profile.bio : "まだ入力されていません" %></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="d-flex flex-column mx-3">
+                    <a href="#<%# edit_user_registration_path %>" class="btn btn-secondary mb-2">アカウント設定</a>
+                    <a href="#<%# edit_profile_path(@profile) %>" class="btn btn-secondary">プロフィール編集</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 mt-4">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h5 class="mt-4">主催のイベント一覧</h5>
+                <div class="mx-3">
+                    <a href="#" class="btn btn-primary">+ イベント作成</a>
+                </div>
+            </div>
+            <ul class="list-group">
+            <%# ここにcurrent_userが主催するイベント一覧を表示します %>
+                <%# if current_user.events.present? %>
+                    <%# current_user.events.each do |event| %>
+                        <li class="list-group-item">
+                        <%# event.name %> - <%# event.date %>
+                        </li>
+                    <%# end %>
+                <%# end %>
+            </ul>
+        </div>
+    </div>
+</div>
