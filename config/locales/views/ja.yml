@@ -5,6 +5,8 @@ ja:
         not_found_in_database: "ログインに失敗しました"
         invalid: "ログインに失敗しました"
         already_authenticated: "すでにログインしています"
+        unauthenticated: "ログインしてください"
+      unauthenticated: "認証されていません"
     registrations:
       user:
         signed_up: "ユーザー登録が完了しました"
