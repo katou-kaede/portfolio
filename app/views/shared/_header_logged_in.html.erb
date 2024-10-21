@@ -29,7 +29,7 @@
                                 <%= link_to 'ログアウト', destroy_user_session_path, method: :delete, class: 'dropdown-item', data: { turbo_method: :delete } %>
                             </li>
                             <li>
-                                <%= link_to 'マイページ', users_show_path, class: 'dropdown-item' %>
+                                <%= link_to 'マイページ', user_path(current_user), class: 'dropdown-item' %>
                             </li>
                         </ul>
                     </li>

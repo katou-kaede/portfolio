@@ -13,17 +13,17 @@ class UsersController < ApplicationController
 
   def update
     @user = current_user
-    if @user.update(user_params) && @user.profile.update(profile_params)
-      redirect_to my_page_path, notice: 'プロフィールが更新されました。'
+    if @user.update(user_params)
+      redirect_to user_path(current_user), notice: 'プロフィールが更新されました。'
     else
-      render :edit
+      render :edit, status: :unprocessable_entity
     end
   end
 
   private
 
   def user_params
-    params.require(:user).permit(:email, :password, :friend_code)
+    params.require(:user).permit(:email, :password, :friend_code, profile_attributes: [:id, :name, :bio, :birthday, :avatar])
   end
 
   def profile_params
