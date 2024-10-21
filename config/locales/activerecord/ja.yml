@@ -7,6 +7,9 @@ ja:
         password_confirmation: "パスワード確認"
       profile:
         name: "名前"
+        bio: "ひとこと"
+        birthday: "誕生日"
+        avatar: "アイコン"
 
   errors:
     messages:
@@ -25,4 +28,3 @@ ja:
             invalid: "有効なメールアドレスを入力してください"
           password:
             blank: "パスワードを入力してください"
-
