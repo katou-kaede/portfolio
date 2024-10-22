@@ -21,6 +21,14 @@ ja:
       confirmation: "が一致しません"
       too_short: "は%{count}文字以上で入力してください"
       taken: "がすでに使用されています"
+      invalid: "が無効です"
+      too_short: "が短すぎます"
+      too_long: "が長すぎます"
+      confirmation: "が一致しません"
+    attributes:
+      current_password:
+        invalid: "が正しくありません"
+
     models:
       user:
         attributes:

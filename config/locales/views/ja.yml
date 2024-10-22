@@ -8,6 +8,9 @@ ja:
         unauthenticated: "ログインしてください"
       unauthenticated: "認証されていません"
     registrations:
+      updated: "アカウント情報が更新されました"
+      update_needs_confirmation: "新しいメールアドレスを確認する必要があります"
+      destroyed: "アカウントは正常に削除されました"
       user:
         signed_up: "ユーザー登録が完了しました"
     sessions:
