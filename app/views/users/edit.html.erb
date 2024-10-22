@@ -1,68 +1,74 @@
 <div class="container-fluid bg-body-tertiary min-vh-100">
-    <div class="row mx-4">
-        <h2 class="col-12 my-4">プロフィールを編集</h2>
+  <div class="row mx-4">
+    <h2 class="col-12 my-4">プロフィールを編集</h2>
 
-        <%= form_for @user, url: user_path(@user), method: :patch do |f| %>
-            <%= f.fields_for :profile do |p| %>
-                <div class="d-flex align-items-center">
-                    <div class="field mb-3">
-                        <%= p.label :avatar %><br />
-                        <%= p.select :avatar, options_for_select([
-                            ['ねこ', 'default_avatar.png'],
-                            ['うさぎ', 'rabbit.png'],
-                            ['くま', 'bear.png'],
-                            ['オオカミ', 'wolf.png'],
-                            ['ハリネズミ','hedgehog.png']
-                        ], selected: @user.profile.avatar), {}, { id: 'avatar-select', class: 'form-select' } %>
-                    </div>
-                    <!-- アバターのプレビュー -->
-                    <div id="avatar-preview" class="mx-5">
-                        <img src="<%= asset_path(@user.profile.avatar) %>" alt="現在のアイコン" class="avatar-img" id="selected-avatar-img"  style="width: 100px; height: 100px;">
-                    </div>
-                </div>
-                <div class="field mb-3">
-                    <%= p.label :name %><br />
-                    <%= p.text_field :name, class: 'form-control' %>
-                </div>
-                <div class="field mb-3">
-                    <%= p.label :bio %><br />
-                    <%= p.text_area :bio, class: 'form-control' %>
-                </div>
-                <div class="field mb-3">
-                    <%= p.label :birthday %><br />
-                    <%# p.date_select :birthday, start_year: 1930, end_year: Time.current.year, class: 'form-select', month_class: 'form-select', day_class: 'form-select', year_class: 'form-select' %>
-                    <div class="d-flex g-2 align-items-center">
-                        <div xlass="col-auto em-2">
-                            <select class="form-select form-select-sm" name="user[profile_attributes][birthday(1i)]">
-                                <%= options_for_select((1940..Time.current.year).to_a.map { |y| [y, y] }, selected: @user.profile.birthday&.year, include_blank: true) %>
-                            </select>
-                        </div>
-                        <div xlass="col-auto em-2">
-                            <select class="form-select form-select-sm" name="user[profile_attributes][birthday(2i)]">
-                                <%= options_for_select((1..12).to_a.map { |m| [m, m] }, selected: @user.profile.birthday&.month, include_blank: true) %>
-                            </select>
-                        </div>
-                        <div xlass="col-auto em-2">
-                            <select class="form-select form-select-sm" name="user[profile_attributes][birthday(3i)]">
-                                <%= options_for_select((1..31).to_a.map { |d| [d, d] }, selected: @user.profile.birthday&.day, include_blank: true) %>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-             <% end %>
-            <%= f.submit '更新', class: 'btn btn-primary' %>
+    <%= form_for @user, url: user_path(@user), method: :patch do |f| %>
+      <%= f.fields_for :profile do |p| %>
+        <div class="d-flex align-items-center">
+          <div class="field mb-3">
+            <%= p.label :avatar %><br />
+            <%= p.select :avatar, options_for_select([
+              ['ねこ', 'default_avatar.png'],
+              ['うさぎ', 'rabbit.png'],
+              ['くま', 'bear.png'],
+              ['オオカミ', 'wolf.png'],
+              ['ハリネズミ','hedgehog.png']
+            ], selected: @user.profile.avatar), {}, { id: 'avatar-select', class: 'form-select' } %>
+          </div>
+          <!-- アバターのプレビュー -->
+          <div id="avatar-preview" class="mx-5">
+            <img src="<%= asset_path(@user.profile.avatar) %>" alt="現在のアイコン" class="avatar-img" id="selected-avatar-img"  style="width: 100px; height: 100px;">
+          </div>
+        </div>
+        <div class="field mb-3">
+          <%= p.label :name %><br />
+          <%= p.text_field :name, class: 'form-control' %>
+        </div>
+        <div class="field mb-3">
+          <%= p.label :bio %><br />
+          <%= p.text_area :bio, class: 'form-control' %>
+        </div>
+        <div class="field mb-3">
+          <%= p.label :birthday %><br />
+          <%# p.date_select :birthday, start_year: 1930, end_year: Time.current.year, class: 'form-select', month_class: 'form-select', day_class: 'form-select', year_class: 'form-select' %>
+          <div class="d-flex g-2 align-items-center">
+              <div class="col-auto em-2">
+                <select class="form-select form-select-sm" name="user[profile_attributes][birthday(1i)]">
+                  <%= options_for_select((1940..Time.current.year).to_a.map { |y| [y, y] }, selected: @user.profile.birthday&.year, include_blank: true) %>
+                </select>
+              </div>
+              <div class="col-auto em-2">
+                <select class="form-select form-select-sm" name="user[profile_attributes][birthday(2i)]">
+                  <%= options_for_select((1..12).to_a.map { |m| [m, m] }, selected: @user.profile.birthday&.month, include_blank: true) %>
+                </select>
+              </div>
+              <div class="col-auto em-2">
+                <select class="form-select form-select-sm" name="user[profile_attributes][birthday(3i)]">
+                  <%= options_for_select((1..31).to_a.map { |d| [d, d] }, selected: @user.profile.birthday&.day, include_blank: true) %>
+                </select>
+              </div>
+            </div>
+          </div>
         <% end %>
-    </div>
+      <%= f.submit '更新', class: 'btn btn-primary' %><br /><br />
+      <%= link_to "戻る", user_path(@user) %>
+    <% end %>
+  </div>
 </div>
 
 <script>
   document.addEventListener('DOMContentLoaded', function() {
     const avatarSelect = document.getElementById('avatar-select');
     const avatarImg = document.getElementById('selected-avatar-img');
+    const basePath = '<%= Rails.application.config.assets.prefix %>/'
+    //const basePath = '<%# asset_path("") %>';
 
     avatarSelect.addEventListener('change', function() {
-      const selectedAvatar = this.value;
-      avatarImg.src = `/assets/${selectedAvatar}`;
+        const selectedAvatar = this.value;
+        console.log('basePath:', basePath);
+        avatarImg.src = `${basePath}${selectedAvatar}`;
+        console.log('選択されたアバター:', avatarImg); // デバッグ用
+        console.log('アバター画像のパス:', avatarImg.src); // デバッグ用
     });
   });
 </script>
