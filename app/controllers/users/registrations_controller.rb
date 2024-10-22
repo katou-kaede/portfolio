@@ -30,7 +30,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   # PUT /resource
   # def update
-  #   super
+    # super
   # end
 
   # DELETE /resource
@@ -47,7 +47,20 @@ class Users::RegistrationsController < Devise::RegistrationsController
   #   super
   # end
 
-  # protected
+  protected
+
+  # パスワードなしで他の情報を更新する
+  def update_resource(resource, params)
+    if params[:password].present? && params[:password_confirmation].present?
+      resource.update_with_password(params)
+    else
+      resource.update_without_password(params.except(:current_password))
+    end
+  end
+
+  def after_update_path_for(resource)
+    user_path(resource)
+  end
 
   # If you have extra params to permit, append them to the sanitizer.
   # def configure_sign_up_params
@@ -72,7 +85,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   private
 
   def user_params
-    params.require(:user).permit(:email, :password, :friend_code, profile_attributes: [:name, :bio, :birthday, :avatar])
+    params.require(:user).permit(:email, :password, :password_confirmation, :current_password, :friend_code, profile_attributes: [:name, :bio, :birthday, :avatar])
   end
 
   def profile_params

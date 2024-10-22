@@ -15,4 +15,16 @@ class User < ApplicationRecord
   # def create_profile
     # Profile.create(user: self, name: self.profile_attributes[:name]) if self.profile_attributes.present?
   # end
+
+  def update_without_current_password(params, *options)
+
+    if params[:password].blank? && params[:password_confirmation].blank?
+      params.delete(:password)
+      params.delete(:password_confirmation)
+    end
+
+    result = update_attributes(params, *options)
+    clean_up_passwords
+    result
+  end
 end
