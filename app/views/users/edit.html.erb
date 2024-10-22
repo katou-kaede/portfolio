@@ -8,12 +8,12 @@
           <div class="field mb-3">
             <%= p.label :avatar %><br />
             <%= p.select :avatar, options_for_select([
-              ['ねこ', 'default_avatar.png'],
-              ['うさぎ', 'rabbit.png'],
-              ['くま', 'bear.png'],
-              ['オオカミ', 'wolf.png'],
-              ['ハリネズミ','hedgehog.png']
-            ], selected: @user.profile.avatar), {}, { id: 'avatar-select', class: 'form-select' } %>
+              ['ねこ', asset_path('default_avatar.png')],
+              ['うさぎ', asset_path('rabbit.png')],
+              ['くま', asset_path('bear.png')],
+              ['オオカミ', asset_path('wolf.png')],
+              ['ハリネズミ',asset_path('hedgehog.png')]
+            ], selected: asset_path(@user.profile.avatar)), {}, { id: 'avatar-select', class: 'form-select' } %>
           </div>
           <!-- アバターのプレビュー -->
           <div id="avatar-preview" class="mx-5">
@@ -57,18 +57,18 @@
 </div>
 
 <script>
-  document.addEventListener('DOMContentLoaded', function() {
+  document.addEventListener('turbo:load', function() {
     const avatarSelect = document.getElementById('avatar-select');
     const avatarImg = document.getElementById('selected-avatar-img');
-    const basePath = '<%= Rails.application.config.assets.prefix %>/'
+    //const basePath = '/public'
     //const basePath = '<%# asset_path("") %>';
 
     avatarSelect.addEventListener('change', function() {
         const selectedAvatar = this.value;
-        console.log('basePath:', basePath);
-        avatarImg.src = `${basePath}${selectedAvatar}`;
-        console.log('選択されたアバター:', avatarImg); // デバッグ用
-        console.log('アバター画像のパス:', avatarImg.src); // デバッグ用
+        //console.log('basePath:', basePath);
+        avatarImg.src = `${selectedAvatar}`;
+        //console.log('選択されたアバター:', avatarImg);
+        //console.log('アバター画像のパス:', avatarImg.src);
     });
   });
 </script>
