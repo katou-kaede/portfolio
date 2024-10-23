@@ -1,0 +1,67 @@
+<div class="container-fluid bg-body-tertiary min-vh-100">
+  <div class="row mx-4">
+    <h2 class="col-12 my-4">イベント作成</h2>
+
+    <%= form_for @event, data: { turbo: false } do |f| %>
+      <%= render "shared/error_messages", object: @event %>
+      <div class="field mb-3">
+        <%= f.label :name, "イベント名" %><br />
+        <%= f.text_field :name, class: 'form-control' %>
+      </div>
+
+      <div class="d-flex mb-3 align-items-center">
+        <div class="col-auto">
+          <%= f.label :date, "開催日時" %><br />
+          <div class="d-inline-flex gap-2">
+            <%= f.datetime_select :date, {}, class: 'form-select w-auto' %>
+          </div>
+        </div>
+      </div>
+
+      <div class="field mb-3">
+        <%= f.label :location, "場所" %><br />
+        <%= f.text_field :location, class: 'form-control' %>
+      </div>
+
+      <div class="d-flex">
+        <div class="field mb-3 col-auto">
+          <%= f.label :capacity, "定員" %><br />
+          <%= f.number_field :capacity, class: 'form-control' %>
+        </div>
+      </div>
+
+      <div class="d-flex">
+        <div class="mb-3 col-auto">
+          <%= f.label :visibility, "公開範囲" %><br />
+          <%= f.select :visibility, options_for_select([['一般公開', 'general'], ['限定公開', 'limited']]), {}, class: 'form-select' %>
+        </div>
+      </div>
+
+      <div class="field mb-3" id="group_select_container" style="display: none;">
+        <%= f.label :group_id, "公開グループ" %>
+        <%# f.collection_select :group_id, Group.all, :id, :name, { include_blank: '選択してください' }, { class: 'form-select' } %>
+      </div>
+
+
+      <div class="field mb-3">
+        <%= f.label :description, "詳細" %><br />
+        <%= f.text_area :description, class: 'form-control' %>
+      </div>
+
+      <div class="mb-3">
+        <%= f.submit '作成', class: 'btn btn-primary' %>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<script>
+  document.getElementById('event_visibility').addEventListener('change', function() {
+    var groupSelectContainer = document.getElementById('group_select_container');
+    if (this.value === 'limited') {
+      groupSelectContainer.style.display = 'block';
+    } else {
+      groupSelectContainer.style.display = 'none';
+    }
+  });
+</script>
