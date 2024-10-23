@@ -11,6 +11,13 @@ ja:
         bio: "ひとこと"
         birthday: "誕生日"
         avatar: "アイコン"
+      event:
+        name: "イベント名"
+        date: "日時"
+        location: "場所"
+        capacity: "定員"
+        visibility: "公開範囲"
+        description: "詳細"
 
   errors:
     messages:
@@ -37,3 +44,7 @@ ja:
             invalid: "有効なメールアドレスを入力してください"
           password:
             blank: "パスワードを入力してください"
+      event:
+        attributes:
+            name:
+              blank: "イベント名を入力してください"

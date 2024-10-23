@@ -3,7 +3,7 @@
     <h2 class="h3 mb-3 fw-normal">アカウント設定</h2>
 
     <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
-      <%= render "users/shared/error_messages", resource: resource %>
+      <%= render "shared/error_messages", object: resource %>
 
       <div class="field mb-3">
         <%= f.label :email %><br />

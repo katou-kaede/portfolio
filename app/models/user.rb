@@ -7,6 +7,8 @@ class User < ApplicationRecord
   has_one :profile, dependent: :destroy
   accepts_nested_attributes_for :profile
 
+  has_many :events, dependent: :destroy
+
   # ユーザー作成後にプロフィールを作成
   # after_create :create_profile
 

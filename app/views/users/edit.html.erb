@@ -3,6 +3,7 @@
     <h2 class="col-12 my-4">プロフィールを編集</h2>
 
     <%= form_for @user, url: user_path(@user), method: :patch do |f| %>
+      <%= render "shared/error_messages", object: @user %>
       <%= f.fields_for :profile do |p| %>
         <div class="d-flex align-items-center">
           <div class="field mb-3">
@@ -34,17 +35,17 @@
           <div class="d-flex g-2 align-items-center">
               <div class="col-auto em-2">
                 <select class="form-select form-select-sm" name="user[profile_attributes][birthday(1i)]">
-                  <%= options_for_select((1940..Time.current.year).to_a.map { |y| [y, y] }, selected: @user.profile.birthday&.year, include_blank: true) %>
+                  <%= options_for_select([[nil, '']] + (1940..Time.current.year).to_a.map { |y| [y, y] }, selected: @user.profile.birthday&.year) %>
                 </select>
               </div>
               <div class="col-auto em-2">
                 <select class="form-select form-select-sm" name="user[profile_attributes][birthday(2i)]">
-                  <%= options_for_select((1..12).to_a.map { |m| [m, m] }, selected: @user.profile.birthday&.month, include_blank: true) %>
+                  <%= options_for_select([[nil, '']] + (1..12).to_a.map { |m| [m, m] }, selected: @user.profile.birthday&.month) %>
                 </select>
               </div>
               <div class="col-auto em-2">
                 <select class="form-select form-select-sm" name="user[profile_attributes][birthday(3i)]">
-                  <%= options_for_select((1..31).to_a.map { |d| [d, d] }, selected: @user.profile.birthday&.day, include_blank: true) %>
+                  <%= options_for_select([[nil, '']] + (1..31).to_a.map { |d| [d, d] }, selected: @user.profile.birthday&.day) %>
                 </select>
               </div>
             </div>
