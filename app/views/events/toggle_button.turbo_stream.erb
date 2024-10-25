@@ -1,0 +1,12 @@
+<%# トグルボタンのコンテナIDを設定 %>
+<% @button_container_id = "button_container_#{@event.id}" %>
+
+<%= turbo_stream.replace @button_container_id do %>
+  <%= render partial: 'events/toggle_button', locals: { event: @event } %>
+<% end %>
+
+
+
+<!--const buttonContainer = document.getElementById("<%# @button_container_id %>");
+const newButton = `<%# j render(partial: 'events/toggle_button', locals: { event: @event }) %>`;
+buttonContainer.innerHTML = newButton; -->

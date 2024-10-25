@@ -2,8 +2,8 @@
   <div class="row mx-4">
     <h2 class="col-12 my-4">マイページ</h2>
     <div class="col-12 mb-4">
-      <div class="d-flex justify-content-between align-items-center">
-        <div class="bg-white p-4 d-flex col-10">
+      <div class="d-flex flex-column flex-md-row justify-content-between align-items-center">
+        <div class="bg-white p-4 d-flex col-10 mb-3 mb-md-0">
           <div class="mx-4" style="width: 100px; height: 100px; overflow: hidden; position: relative;">
             <%# if @profile.avatar.present? %>
               <img src="<%= asset_path(@profile.avatar) %>" alt="User Avatar" class="img-fluid" style="object-fit: cover; position: absolute;">
@@ -34,7 +34,7 @@
       <div class="d-flex justify-content-between align-items-center mb-4">
         <h5 class="mt-4">主催のイベント一覧</h5>
         <div class="mx-3">
-          <a href="#" class="btn btn-primary">+ イベント作成</a>
+          <a href="<%= new_event_path %>" class="btn btn-primary">+ イベント作成</a>
         </div>
       </div>
       <ul class="list-group">
