@@ -7,9 +7,12 @@ class User < ApplicationRecord
   has_one :profile, dependent: :destroy
   accepts_nested_attributes_for :profile
 
+  # 主催イベント
   has_many :events
+
+  # 参加イベント
   has_many :participants
-  has_many :events, through: :participants
+  has_many :participated_events, through: :participants, source: :event
 
   # ユーザー作成後にプロフィールを作成
   # after_create :create_profile

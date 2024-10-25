@@ -8,10 +8,18 @@
 
                 <ul class="nav col-12 col-lg-auto my-2 justify-content-between my-md-0 text-small">
                     <li>
-                        <a href="<%= events_path %>" class="nav-link text-white d-flex flex-column align-items-center">
+                        <a href="#" class="nav-link text-white d-flex flex-column align-items-center dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="bi bi-calendar-event-fill d-block mx-auto mb-1" style="font-size: 1.5rem;"></i>
                             イベント
                         </a>
+                        <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDropdown">
+                            <li>
+                                <%= link_to 'イベント一覧', events_path, class: 'dropdown-item' %>
+                            </li>
+                            <li>
+                                <%= link_to '過去のイベント一覧', past_events_path, class: 'dropdown-item' %>
+                            </li>
+                        </ul>
                     </li>
                     <li>
                         <a href="#" class="nav-link text-white d-flex flex-column align-items-center">
