@@ -37,16 +37,15 @@
           <a href="<%= new_event_path %>" class="btn btn-primary">+ イベント作成</a>
         </div>
       </div>
-      <ul class="list-group">
-        <%# ここにcurrent_userが主催するイベント一覧を表示します %>
-          <%# if current_user.events.present? %>
-            <%# current_user.events.each do |event| %>
-              <li class="list-group-item">
-              <%# event.name %> - <%# event.date %>
-              </li>
-            <%# end %>
-          <%# end %>
-      </ul>
+      <div class="event-list">
+        <% if current_user.events.present? %>
+          <% current_user.events.each do |event| %>
+            <% if event.hosted_by?(current_user) %>
+              <%= render 'events/event_card', event: event %>
+            <% end %>
+          <% end %>
+        <% end %>
+      </div>
     </div>
   </div>
 </div>

@@ -6,6 +6,10 @@ class EventsController < ApplicationController
     @events = Event.all.select(&:registration_open?)
   end
 
+  def past_index
+    @past_events = Event.where('date < ?', Time.current).order(date: :desc)
+  end
+
   def new
     @event = Event.new
   end
@@ -47,8 +51,8 @@ class EventsController < ApplicationController
         if @event.date.future? && (@event.capacity.nil? || @event.capacity > @event.participants.count)
           @event.open_registration
         else
-          flash[:alert] = "過去のイベントまたは定員に達したイベントのため、再開できません"
-          render events_path
+          flash[:alert] = "過去のイベントのため再開できません"
+          redirect_to request.referer || past_events_path and return
         end
       end
     end

@@ -10,6 +10,9 @@ Rails.application.routes.draw do
       post 'toggle_registration', to: 'events#toggle_registration' # 募集中/募集終了の切り替え
       post 'toggle_participation', to: 'events#toggle_participation' # 参加する/参加中の切り替え
     end
+    collection do
+      get 'past', to: 'events#past_index'
+    end
   end
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
