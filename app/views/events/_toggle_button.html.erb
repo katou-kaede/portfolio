@@ -1,0 +1,7 @@
+<% if event.hosted_by?(current_user) %>
+  <%# 主催者の場合 %>
+  <%= button_to event.registration_open? ? '募集中' : '募集終了', toggle_registration_event_path(event), remote: true, class: "btn #{event.registration_open? ? 'btn-success' : 'btn-secondary'}", id: "button_container_#{event.id}" %>
+<% else %>
+  <%# 参加者の場合 %>
+  <%= button_to current_user.participating?(event) ? '参加中' : '参加する', toggle_participation_event_path(event), remote: true, class: "btn #{current_user.participating?(event) ? 'btn-secondary' : 'btn-warning'}", id: "button_container_#{event.id}" %>
+<% end %>

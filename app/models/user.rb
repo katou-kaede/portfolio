@@ -7,7 +7,9 @@ class User < ApplicationRecord
   has_one :profile, dependent: :destroy
   accepts_nested_attributes_for :profile
 
-  has_many :events, dependent: :destroy
+  has_many :events
+  has_many :participants
+  has_many :events, through: :participants
 
   # ユーザー作成後にプロフィールを作成
   # after_create :create_profile
@@ -28,5 +30,20 @@ class User < ApplicationRecord
     result = update_attributes(params, *options)
     clean_up_passwords
     result
+  end
+
+  # ユーザーがイベントに参加しているか確認するメソッド
+  def participating?(event)
+    event.participants.exists?(user_id: self.id)
+  end
+
+  # ユーザーがイベントに参加するメソッド
+  def join_event(event)
+    event.participants.create(user_id: self.id)
+  end
+
+  # ユーザーがイベントから離れるメソッド
+  def leave_event(event)
+    event.participants.where(user_id: self.id).destroy_all
   end
 end

@@ -5,7 +5,12 @@ Rails.application.routes.draw do
   }
 
   resources :users, only: [:show, :edit, :update]
-  resources :events
+  resources :events do
+    member do
+      post 'toggle_registration', to: 'events#toggle_registration' # 募集中/募集終了の切り替え
+      post 'toggle_participation', to: 'events#toggle_participation' # 参加する/参加中の切り替え
+    end
+  end
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.

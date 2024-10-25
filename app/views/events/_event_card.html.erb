@@ -1,0 +1,12 @@
+<div class="card mb-3">
+  <div class="card-body">
+    <h5 class="card-title"><%= event.name %></h5>
+    <p class="card-text">開催場所: <%= event.location %></p>
+    <p class="card-text">開催日時: <%= event.date.strftime("%Y年%m月%d日 %H:%M") %></p>
+    <p class="card-text">定員: <%= event.capacity %>人</p>
+
+    <div id="button_container_<%= event.id %>">
+      <%= render 'toggle_button', event: event %>
+    </div>
+  </div>
+</div>
