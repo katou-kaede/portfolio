@@ -3,7 +3,13 @@ class EventsController < ApplicationController
   before_action :set_event, only: [:show, :edit, :update, :destroy, :toggle_registration, :toggle_participation]
 
   def index
-    @events = Event.all.select(&:registration_open?)
+    @events = Event.where(status: 'open').page(params[:page]).per(10)
+    @events.each do |event|
+      if !event.registration_open?
+        event.update(status: 'closed')
+      end
+    end
+
   end
 
   def past_index
