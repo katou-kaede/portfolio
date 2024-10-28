@@ -38,14 +38,15 @@
         </div>
       </div>
       <div class="event-list">
-        <% if current_user.events.present? %>
-          <% current_user.events.each do |event| %>
+        <% if @events.present? %>
+          <% @events.each do |event| %>
             <% if event.hosted_by?(current_user) %>
               <%= render 'events/event_card', event: event %>
             <% end %>
           <% end %>
         <% end %>
       </div>
+      <%= paginate @events, theme: 'bootstrap-5' %>
     </div>
   </div>
 </div>
