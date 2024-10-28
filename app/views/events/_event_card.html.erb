@@ -5,8 +5,21 @@
     <p class="card-text">開催日時: <%= event.date.strftime("%Y年%m月%d日 %H:%M") %></p>
     <p class="card-text">参加者数: <%= event.participants.count + 1 %>人 / 定員: <%= event.capacity %>人</p>
 
-    <div id="button_container_<%= event.id %>">
-      <%= render 'events/toggle_button', event: event %>
+    <div class="d-flex  justify-content-between">
+      <div id="button_container_<%= event.id %>">
+        <%= render 'events/toggle_button', event: event %>
+      </div>
+
+      <% if event.hosted_by?(current_user) %>
+        <div class="d-flex">
+          <%= button_to edit_event_path(event), method: :get, class: 'btn p-0 border-0 mx-3' do %>
+            <i class="bi bi-pencil-fill d-block mx-auto mb-1" style="font-size: 1.5rem;"></i>
+          <% end %>
+          <%= button_to event_path(event), method: :delete, data: { turbo_confirm: '本当に削除しますか？' }, class: 'btn p-0 border-0' do %>
+            <i class="bi bi-trash3-fill d-block mx-auto mb-1" style="font-size: 1.5rem;"></i>
+          <% end %>
+        </div>
+      <% end %>
     </div>
   </div>
 </div>

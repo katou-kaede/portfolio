@@ -4,6 +4,7 @@ class UsersController < ApplicationController
   def show
     @user = current_user
     @profile = @user.profile
+    @events = current_user.events.page(params[:page]).per(5)
   end
 
   def edit

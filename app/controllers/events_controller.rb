@@ -1,6 +1,7 @@
 class EventsController < ApplicationController
-  before_action :authenticate_user!, only:[:new, :create, :update, :destroy, :toggle_registration]
+  before_action :authenticate_user!, only:[:new, :create, :edit, :update, :destroy, :toggle_registration]
   before_action :set_event, only: [:show, :edit, :update, :destroy, :toggle_registration, :toggle_participation]
+  before_action :correct_user, only: [:edit, :update, :destroy]
 
   def index
     @events = Event.where(status: 'open').page(params[:page]).per(10)
@@ -13,7 +14,7 @@ class EventsController < ApplicationController
   end
 
   def past_index
-    @past_events = Event.where('date < ?', Time.current).order(date: :desc)
+    @past_events = Event.where('date < ?', Time.current).order(date: :desc).page(params[:page]).per(10)
   end
 
   def new
@@ -37,6 +38,8 @@ class EventsController < ApplicationController
   end
 
   def destroy
+    @event.destroy
+    redirect_to events_path, notice: 'イベントが削除されました'
   end
 
   def update
@@ -91,5 +94,11 @@ class EventsController < ApplicationController
 
   def set_event
     @event = Event.find(params[:id])
+  end
+
+  def correct_user
+    unless @event.hosted_by?(current_user)
+      redirect_to events_path, alert: 'このイベントを編集・削除する権限がありません'
+    end
   end
 end
