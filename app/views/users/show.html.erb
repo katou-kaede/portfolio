@@ -1,49 +1,65 @@
 <div class="container-fluid bg-body-tertiary min-vh-100">
-  <div class="row mx-4">
-    <h2 class="col-12 my-4">マイページ</h2>
-    <div class="d-flex flex-column flex-md-row">
-      <div class="col-md-10 card mb-4">
-        <div class="card-body d-flex p-4">
-            <div class="col-md-2">
-              <%# if @profile.avatar.present? %>
-                <%= image_tag @profile.avatar, class: 'img-fluid', style: 'width: 100px; height: 100px;' %>
-              <%# else %>
-                <!--<img src="<%# asset_path('default-avatar.png') %>" alt="Default Avatar" class="rounded-circle" style="width: 100px; height: 100px;">
-                <div class="rounded-circle bg-secondary" style="width: 100px; height: 100px;"></div>-->
-              <%# end %>
+  <div class="row mx-4 justify-content-center">
+    <% if @user == current_user %>
+      <h2 class="col-12 my-4">マイページ</h2>
+    <% else %>
+      <h2 class="col-12 my-4">ユーザー詳細</h2>
+    <% end %>
+    <div class="col-md-10 card mb-4 mx-auto">
+      <div class="card-body d-flex p-4">
+          <div class="col-md-2">
+            <%# if @profile.avatar.present? %>
+              <%= image_tag @profile.avatar, class: 'img-fluid', style: 'width: 100px; height: 100px;' %>
+            <%# else %>
+              <!--<img src="<%# asset_path('default-avatar.png') %>" alt="Default Avatar" class="rounded-circle" style="width: 100px; height: 100px;">
+              <div class="rounded-circle bg-secondary" style="width: 100px; height: 100px;"></div>-->
+            <%# end %>
+          </div>
+          <div class="col-md-7">
+            <h5 class="card-text fw-normal"><%= @profile.name %></h5>
+            <div class="d-flex mt-3">
+              <p class="card-text">年齢: <%= age(@profile.birthday) %>歳</p>
+              <p class="card-text mx-4">誕生日: <%= @profile.birthday.strftime('%Y年%m月%d日') if @profile.birthday.present? %></p>
             </div>
-            <div class="col-md-7">
-              <h5 class="card-text fw-normal"><%= @profile.name %></h5>
-              <div class="d-flex mt-3">
-                <p class="card-text">年齢: <%= age(@profile.birthday) %>歳</p>
-                <p class="card-text mx-4">誕生日: <%= @profile.birthday.strftime('%Y年%m月%d日') if @profile.birthday.present? %></p>
+            <div>
+              <p class="card-text">ひとこと: <%= @profile.bio.present? ? @profile.bio : "" %></p>
+            </div>
+          </div>
+          <div class="ms-auto d-flex flex-column align-items-end">
+            <p class="card-text border border-2 m-0 p-1">フレンドコード：<%= @user.friend_code %></p>
+            <% if @user != current_user %>
+              <div id="button_container_<%= @user.id %>" class="mt-4">
+                <%= render 'users/toggle_button', user: @user %>
               </div>
-              <div>
-                <p class="card-text">ひとこと: <%= @profile.bio.present? ? @profile.bio : "まだ入力されていません" %></p>
-              </div>
-            </div>
-            <div class="ms-auto">
-              <p class="card-text border border-2 m-0 p-1">フレンドコード：<%= @user.friend_code %></p>
-            </div>
-        </div>
-      </div>
-      <div class="col-md-2 d-flex flex-column mx-3 justify-content-center">
-        <a href="<%= edit_user_registration_path %>" class="btn btn-secondary mb-2 w-100" style="max-width: 200px;">アカウント設定</a>
-        <a href="<%= edit_user_path(@user) %>" class="btn btn-secondary w-100" style="max-width: 200px;">プロフィール編集</a>
+            <% end %>
+          </div>
       </div>
     </div>
 
-    <div class="col-12 mt-4">
-      <div class="d-flex justify-content-between align-items-center mb-4">
-        <h5 class="col-md-10 mt-4">主催のイベント一覧</h5>
-        <div class="col-md-2 mx-3">
-          <a href="<%= new_event_path %>" class="btn btn-primary w-100" style="max-width: 200px;">+ イベント作成</a>
-        </div>
+    <% if @user == current_user %>
+      <div class="d-flex justify-content-center my-2">
+        <a href="<%= edit_user_registration_path %>" class="btn btn-secondary">アカウント設定</a>
+        <a href="<%= edit_user_path(@user) %>" class="btn btn-secondary mx-2">プロフィール編集</a>
+      </div>
+    <% else %>
+      <div class="col-10 mt-4">
+        <%= link_to '戻る', users_path %>
+      </div>
+    <% end %>
+
+    <div class="col-12 mt-5">
+      <div class="col-md-10 d-flex justify-content-between align-items-center mb-4 mx-auto">
+        <h5 class="mt-4">主催のイベント一覧</h5>
+        <% if @user == current_user %>
+          <div class="mx-3">
+            <a href="<%= new_event_path %>" class="btn btn-primary w-100" style="max-width: 200px;">+ イベント作成</a>
+          </div>
+        <% end %>
       </div>
       <div class="event-list">
         <% if @events.present? %>
           <% @events.each do |event| %>
-            <% if event.hosted_by?(current_user) %>
+            <% if event.hosted_by?(@user) %>
               <%= render 'events/event_card', event: event %>
             <% end %>
           <% end %>

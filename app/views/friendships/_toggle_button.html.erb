@@ -1,5 +1,0 @@
-<% if current_user.friends_with?(friend) %>
-  <%= button_to "フォロー中",  toggle_friendship_friendship_path(friend), remote: true, data: { turbo_confirm: "本当にフォローを解除しますか？" }, class: "btn btn-secondary", id: "button_container_#{friend.id}" %>
-<% else %>
-  <%= button_to "フォロー",  toggle_friendship_friendship_path(friend), remote: true, class: "btn btn-primary", id: "button_container_#{friend.id}" %>
-<% end %>

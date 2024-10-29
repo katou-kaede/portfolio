@@ -1,57 +1,52 @@
 <div class="container-fluid bg-body-tertiary min-vh-100">
   <div class="row mx-4 justify-content-center">
     <h2 class="col-12 my-4">イベント詳細</h2>
-    <div class="bg-white p-5 col-9">
-      <div class="d-flex  align-items-center justify-content-between">
-        <h4 class="mb-5"><%= @event.name %>　(主催者：<%= @event.user.profile.name if @event.user.profile %>)</h4>
+    <div class="card col-10 px-4">
+      <div class="card-body d-flex align-items-center justify-content-between">
+        <div class="col-10">
+          <h5 class="card-title my-3"><%= @event.name %>　(主催者：<%= @event.user.profile.name if @event.user.profile %>)</h5>
 
-        <div class="mb-3">
-          <%= render 'events/toggle_button', event: @event %>
-        </div>
-      </div>
-
-      <div class="d-flex mb-3">
-        <div>
-          <strong>開催日時:</strong> <%= @event.date.strftime("%Y年%m月%d日 %H:%M") %>
-        </div>
-
-        <div class="mx-4">
-          <strong>開催場所:</strong> <%= @event.location %>
-        </div>
-      </div>
-
-      <div class="mb-3">
-        <strong>イベント詳細:</strong> <%= @event.description %>
-      </div>
-
-      <div class="mb-3">
-        <strong>参加者数:</strong>  <%= @event.participants.count + 1 %>人 / <strong>定員:</strong> <%= @event.capacity.present? ? "#{@event.capacity}人" : "無制限" %></p>
-      </div>
-
-      <div class="mb-3 d-flex align-items-center">
-        <strong>参加者:</strong>
-        <div class="d-flex flex-wrap">
-          <div class="d-flex flex-column align-items-center">
-            <%= image_tag @event.user.profile.avatar, class: 'img-fluid', size: '50x50' if @event.user.profile.avatar %>
-            <p><%= @event.user.profile.name if @event.user.profile %></p>
+          <div class="card-text mb-3">
+            <strong>開催日時:</strong> <%= @event.date.strftime("%Y年%m月%d日 %H:%M") %>
           </div>
-          <% @event.participants.each do |participant| %>
-            <div class="d-flex flex-column align-items-center mx-2">
-              <%= image_tag participant.user.profile.avatar, class: 'img-fluid', size: '50x50' if participant.user.profile.avatar %>
-              <p><%= participant.user.profile.name if participant.user.profile %></p>
+
+          <div class="card-text mb-3">
+            <strong>開催場所:</strong> <%= @event.location %>
+          </div>
+
+          <div class="card-text mb-3">
+            <strong>イベント詳細:</strong> <%= @event.description %>
+          </div>
+
+          <div class="card-text mb-3">
+            <strong>参加者数:</strong>  <%= @event.participants.count %>人 / <strong>定員:</strong> <%= @event.capacity.present? ? "#{@event.capacity}人" : "無制限" %></p>
+          </div>
+
+          <div class="card-text mb-3 d-flex align-items-center">
+            <strong>参加者:</strong>
+            <div class="d-flex flex-wrap">
+              <% @event.participants.each do |participant| %>
+                <div class="d-flex flex-column align-items-center mx-2">
+                  <%= image_tag participant.user.profile.avatar, class: 'img-fluid', size: '50x50' if participant.user.profile.avatar %>
+                  <p><%= participant.user.profile.name if participant.user.profile %></p>
+                </div>
+              <% end %>
+            </div>
+          </div>
+
+          <% if @event.hosted_by?(current_user) %>
+            <div class="card-text mb-3">
+              <strong>公開範囲:</strong> <%= t("activerecord.attributes.event.visibility.#{@event.visibility}") %>
+              <% if @event.visibility == 'limited' && @event.group_id %>
+                <p>グループ名: <%= @event.group.name %></p>
+              <% end %>
             </div>
           <% end %>
         </div>
-      </div>
-
-      <% if @event.hosted_by?(current_user) %>
-        <div class="mb-3">
-          <strong>公開範囲:</strong> <%= t("activerecord.attributes.event.visibility.#{@event.visibility}") %>
-          <% if @event.visibility == 'limited' && @event.group_id %>
-            <p>グループ名: <%= @event.group.name %></p>
-          <% end %>
+        <div class="ms-auto my-3 align-self-start">
+          <%= render 'events/toggle_button', event: @event %>
         </div>
-      <% end %>
+      </div>
     </div>
 
     <% if @event.hosted_by?(current_user) %>
@@ -65,6 +60,8 @@
         <% end %>
       </div>
     <% end %>
-    <%= link_to '戻る', events_path, class: 'col-8 mt-4' %>
+    <div class="col-10 mt-4">
+      <%= link_to '戻る', events_path %>
+    </div>
   </div>
 </div>

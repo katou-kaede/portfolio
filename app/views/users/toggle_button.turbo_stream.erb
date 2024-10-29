@@ -1,0 +1,6 @@
+<%# トグルボタンのコンテナIDを設定 %>
+<% @button_container_id = "button_container_#{@user.id}" %>
+
+<%= turbo_stream.replace  @button_container_id do %>
+  <%= render partial: 'users/toggle_button', locals: { user: @user } %>
+<% end %>

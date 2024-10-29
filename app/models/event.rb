@@ -8,6 +8,8 @@ class Event < ApplicationRecord
   validates :visibility, presence: true, inclusion: { in: %w[general limited] }
   validates :status, inclusion: { in: %w[open closed] }
 
+  after_create :add_host_as_participant
+
   # イベントの主催者かどうかを判定する
   def hosted_by?(user)
     self.user_id == user.id
@@ -39,5 +41,11 @@ class Event < ApplicationRecord
     return false if capacity.present? && participants.count >= capacity # 定員に達しているイベントは募集終了
 
     true # それ以外は募集中
+  end
+
+  private
+
+  def add_host_as_participant
+    participants.create(user_id: user_id)
   end
 end

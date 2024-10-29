@@ -1,0 +1,12 @@
+<div class="container-fluid bg-body-tertiary min-vh-100">
+  <div class="row mx-4">
+      <h2 class="my-4">フレンドリスト</h2>
+
+      <div class="event-list">
+        <% @users.each do |user| %>
+          <%= render partial: 'user_card', locals: { user: user } %>
+        <% end %>
+      </div>
+      <%= paginate @users, theme: 'bootstrap-5' %>
+  </div>
+</div>

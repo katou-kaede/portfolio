@@ -1,10 +1,14 @@
 class UsersController < ApplicationController
   before_action :authenticate_user!
 
+  def index
+    @users = current_user.friends.page(params[:page]).per(10)
+  end
+
   def show
-    @user = current_user
+    @user = User.find(params[:id])
     @profile = @user.profile
-    @events = current_user.events.page(params[:page]).per(5)
+    @events = @user.events.page(params[:page]).per(5)
   end
 
   def edit
@@ -18,6 +22,21 @@ class UsersController < ApplicationController
       redirect_to user_path(current_user), notice: 'プロフィールが更新されました'
     else
       render :edit, status: :unprocessable_entity
+    end
+  end
+
+  def toggle_friendship
+    @user = User.find(params[:id])
+    if current_user.friends_with?(@user)
+      current_user.unfollow(@user)
+    else
+      current_user.follow(@user)
+    end
+
+    @button_container_id = "button_container_#{@user.id}"
+    respond_to do |format|
+      format.turbo_stream { render 'users/toggle_button' }
+      format.html { redirect_to users_path }
     end
   end
 
