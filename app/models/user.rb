@@ -14,6 +14,14 @@ class User < ApplicationRecord
   has_many :participants
   has_many :participated_events, through: :participants, source: :event
 
+  # 自分が友達として追加した関係
+  has_many :friendships, dependent: :destroy
+  has_many :friends, through: :friendships, source: :friend
+
+  # 自分を友達として追加した関係
+  has_many :inverse_friendships, class_name: 'Friendship', foreign_key: 'friend_id', dependent: :destroy
+  has_many :inverse_friends, through: :inverse_friendships, source: :user
+
   # ユーザー作成後にプロフィールを作成
   # after_create :create_profile
 
@@ -48,5 +56,20 @@ class User < ApplicationRecord
   # ユーザーがイベントから離れるメソッド
   def leave_event(event)
     event.participants.where(user_id: self.id).destroy_all
+  end
+
+  # 他のユーザーと友達かどうかを判定するメソッド
+  def friends_with?(other_user)
+    friends.exists?(other_user.id)
+  end
+
+  # フォローするメソッド
+  def follow(other_user)
+    friendships.create(friend_id: other_user.id)
+  end
+
+  # フォロー解除するメソッド
+  def unfollow(other_user)
+    friendships.find_by(friend_id: other_user.id)&.destroy
   end
 end

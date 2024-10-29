@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get "friendships/index"
   devise_for :users, controllers: {
     sessions: 'users/sessions',
     registrations: 'users/registrations'
@@ -12,6 +13,12 @@ Rails.application.routes.draw do
     end
     collection do
       get 'past', to: 'events#past_index'
+    end
+  end
+
+  resources :friendships do
+    member do
+      post :toggle_friendship, to: 'friendships#toggle_friendship'
     end
   end
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
