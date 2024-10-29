@@ -5,7 +5,12 @@ Rails.application.routes.draw do
     registrations: 'users/registrations'
   }
 
-  resources :users, only: [:show, :edit, :update]
+  resources :users do
+    member do
+      post :toggle_friendship, to: 'users#toggle_friendship'
+    end
+  end
+
   resources :events do
     member do
       post 'toggle_registration', to: 'events#toggle_registration' # 募集中/募集終了の切り替え
@@ -16,11 +21,6 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :friendships do
-    member do
-      post :toggle_friendship, to: 'friendships#toggle_friendship'
-    end
-  end
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.

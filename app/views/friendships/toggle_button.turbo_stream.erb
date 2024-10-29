@@ -1,6 +1,0 @@
-<%# トグルボタンのコンテナIDを設定 %>
-<% @button_container_id = "button_container_#{friend.id}" %>
-
-<%= turbo_stream.replace  @button_container_id do %>
-  <%= render partial: 'friendships/toggle_button', locals: { friend: friend } %>
-<% end %>
