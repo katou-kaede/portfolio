@@ -28,7 +28,7 @@
               <% @event.participants.each do |participant| %>
                 <div class="d-flex flex-column align-items-center mx-2">
                   <%= image_tag participant.user.profile.avatar, class: 'img-fluid', size: '50x50' if participant.user.profile.avatar %>
-                  <p><%= participant.user.profile.name if participant.user.profile %></p>
+                  <p><%= link_to participant.user.profile.name, user_path(participant.user), class: 'text-decoration-none text-dark' if participant.user.profile %></p>
                 </div>
               <% end %>
             </div>
