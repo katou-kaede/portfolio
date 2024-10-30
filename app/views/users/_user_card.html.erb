@@ -15,7 +15,7 @@
     <div class="ms-auto d-flex flex-column align-items-end">
       <p class="card-text border border-2 m-0 p-1">フレンドコード：<%= user.friend_code %></p>
       <% if user != current_user %>
-        <div id="button_container_<%= user.id %>" class="mt-4">
+        <div id="button_container_<%= user.id %>">
           <%= render 'users/toggle_button', user: user %>
         </div>
       <% end %>

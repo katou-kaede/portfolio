@@ -2,7 +2,13 @@ class UsersController < ApplicationController
   before_action :authenticate_user!
 
   def index
-    @users = current_user.friends.page(params[:page]).per(10)
+    if params[:friend_code].present?
+      @users = User.where(friend_code: params[:friend_code]).page(params[:page]).per(10)
+      @searching = true
+    else
+      @users = current_user.friends.page(params[:page]).per(10)
+      @searching = false
+    end
   end
 
   def show
