@@ -21,6 +21,8 @@ ja:
           general: "一般公開"
           limited: "限定公開"
         description: "詳細"
+      group:
+        name: "グループ名"
 
   errors:
     messages:
@@ -51,3 +53,11 @@ ja:
         attributes:
             name:
               blank: "イベント名を入力してください"
+      group:
+        attributes:
+          user:
+            required: "は必須です"
+      group_member:
+        attributes:
+          user:
+            required: "は必須です"

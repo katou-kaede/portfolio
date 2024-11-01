@@ -22,8 +22,8 @@ class User < ApplicationRecord
   has_many :inverse_friendships, class_name: 'Friendship', foreign_key: 'friend_id', dependent: :destroy
   has_many :inverse_friends, through: :inverse_friendships, source: :user
 
-  has_many :groups
   has_many :group_members, foreign_key: :user_id
+  has_many :groups, through: :group_members
   has_many :joined_groups, through: :group_members, source: :group
 
   # ユーザー作成後にプロフィールを作成
