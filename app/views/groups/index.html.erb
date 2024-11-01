@@ -1,0 +1,16 @@
+<div class="container-fluid bg-body-tertiary min-vh-100">
+  <div class="row mx-4 justify-content-center">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <h2 class="my-4">グループリスト</h2>
+      <div class="mx-3">
+        <a href="<%= new_group_path %>" class="btn btn-primary">+ グループ作成</a>
+      </div>
+    </div>
+    <div class="group-list">
+      <% @groups.each do |group| %>
+        <%= render partial: 'group_card', locals: { group: group } %>
+      <% end %>
+    </div>
+    <%= paginate @groups, theme: 'bootstrap-5' %>
+  </div>
+</div>

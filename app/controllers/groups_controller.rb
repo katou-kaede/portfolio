@@ -1,5 +1,6 @@
 class GroupsController < ApplicationController
   before_action :authenticate_user!
+  before_action :correct_user, only: [:edit, :update, :destroy]
 
   def new
     @group = Group.new
@@ -20,12 +21,30 @@ class GroupsController < ApplicationController
   end
 
   def index
-    @groups = current_user.groups.page(params[:page]).per(10)
+    @groups = Group.where(user_id: current_user.id).includes(:group_members).page(params[:page]).per(10)
+  end
+
+  def show
+  end
+
+  def edit
+  end
+
+  def update
+  end
+
+  def destroy
   end
 
   private
 
   def group_params
     params.require(:group).permit(:name, member_ids: [])
+  end
+
+  def correct_user
+    unless @group.user_id == current_user.id
+      redirect_to events_path, alert: 'このグループを編集・削除する権限がありません'
+    end
   end
 end
