@@ -37,9 +37,11 @@
         </div>
       </div>
 
-      <div class="field mb-3" id="group_select_container" style="display: none;">
-        <%= f.label :group_id, "公開グループ" %>
-        <%= f.collection_select :group_id, Group.all, :id, :name, { include_blank: '選択してください' }, { class: 'form-select' } %>
+      <div class="d-flex">
+        <div class="field mb-3 col-auto" id="group_select_container" style="display: none;">
+          <%= f.label :group_id, "公開グループ" %><br />
+          <%= f.select :group_id, options_for_select([['フレンド全員', 'all_friends']] + @groups.map { |group| [group.name, group.id] }), {}, { class: 'form-select' } %>
+        </div>
       </div>
 
 

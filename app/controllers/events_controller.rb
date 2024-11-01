@@ -4,26 +4,27 @@ class EventsController < ApplicationController
   before_action :correct_user, only: [:edit, :update, :destroy]
 
   def index
-    @events = Event.where(status: 'open').page(params[:page]).per(10)
+    @events = Event.where(status: 'open').viewable_by(current_user).page(params[:page]).per(10)
     @events.each do |event|
       if !event.registration_open?
         event.update(status: 'closed')
       end
     end
-
   end
 
   def past_index
-    @past_events = Event.where('date < ?', Time.current).order(date: :desc).page(params[:page]).per(10)
+    @past_events = Event.where('date < ?', Time.current).viewable_by(current_user).order(date: :desc).page(params[:page]).per(10)
   end
 
   def new
     @event = Event.new
+    @groups = Group.where(user_id: current_user.id).includes(:group_members)
   end
 
   def create
     @event = current_user.events.build(event_params)
     @event.user_id = current_user.id
+    @event.group_id = nil if params[:event][:group_id] == 'all_friends'
     if @event.save
       redirect_to @event, notice: 'イベントが作成されました'
     else
@@ -35,6 +36,7 @@ class EventsController < ApplicationController
   end
 
   def edit
+    @groups = Group.where(user_id: current_user.id).includes(:group_members)
   end
 
   def destroy
@@ -43,6 +45,7 @@ class EventsController < ApplicationController
   end
 
   def update
+    @event.group_id = nil if params[:event][:group_id] == 'all_friends'
     if @event.update(event_params)
       @event.update_registration_status
       redirect_to  @event, notice: 'イベントが更新されました'

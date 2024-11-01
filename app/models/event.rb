@@ -1,5 +1,6 @@
 class Event < ApplicationRecord
   belongs_to :user
+  belongs_to :group, optional: true
 
   has_many :participants, dependent: :destroy
   has_many :users, through: :participants
@@ -42,6 +43,19 @@ class Event < ApplicationRecord
 
     true # それ以外は募集中
   end
+
+  scope :viewable_by, ->(user) {
+    where(
+      "visibility = 'general' OR
+      (visibility = 'limited' AND (
+        (group_id IS NULL AND EXISTS
+          (SELECT 1 FROM friendships WHERE friend_id = ? AND user_id = events.user_id)) OR
+        (group_id IS NOT NULL AND EXISTS
+          (SELECT 1 FROM group_members WHERE user_id = ? AND group_id = events.group_id))
+      )) OR
+      (events.user_id = ?)", user.id, user.id, user.id
+    )
+  }
 
   private
 
