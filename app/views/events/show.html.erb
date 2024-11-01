@@ -19,7 +19,7 @@
           </div>
 
           <div class="card-text mb-3">
-            <strong>参加者数:</strong>  <%= @event.participants.count %>人 / <strong>定員:</strong> <%= @event.capacity.present? ? "#{@event.capacity}人" : "無制限" %></p>
+            <strong>参加者数:</strong> <%= @event.participants.count %>人 / <strong>定員:</strong> <%= @event.capacity.present? ? "#{@event.capacity}人" : "無制限" %></p>
           </div>
 
           <div class="card-text mb-3 d-flex align-items-center">
@@ -37,8 +37,15 @@
           <% if @event.hosted_by?(current_user) %>
             <div class="card-text mb-3">
               <strong>公開範囲:</strong> <%= t("activerecord.attributes.event.visibility.#{@event.visibility}") %>
-              <% if @event.visibility == 'limited' && @event.group_id %>
-                <p>グループ名: <%= @event.group.name %></p>
+            </div>
+
+            <div class="card-text mb-3">
+              <% if @event.visibility == 'limited' %>
+                <% if @event.group_id.nil? %>
+                  <strong>公開グループ:</strong> フレンド全員
+                <% else %>
+                  <strong>公開グループ:</strong> <%= @event.group.name %>
+                <% end %>
               <% end %>
             </div>
           <% end %>

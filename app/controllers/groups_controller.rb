@@ -8,16 +8,10 @@ class GroupsController < ApplicationController
   end
 
   def create
-          Rails.logger.debug "Group params: #{group_params.inspect}"
     @group = current_user.groups.build(group_params)
     @group.user_id = current_user.id
     if @group.save
-      Rails.logger.debug "Member IDs to be assigned: #{params[:group][:member_ids]}"
-
       @group.member_ids = params[:group][:member_ids]
-      Rails.logger.debug "Assigned members after saving: #{@group.members.inspect}"
-      Rails.logger.debug "Group saved successfully: #{@group.persisted?}"
-
       redirect_to groups_path, notice: 'グループが作成されました'
     else
       @friends = current_user.friends.includes(:profile)
