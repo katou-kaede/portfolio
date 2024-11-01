@@ -18,7 +18,7 @@
       </div>
     <% end %>
 
-    <div class="event-list">
+    <div class="user-list">
       <% if @users.present? %>
         <% @users.each do |user| %>
           <%= render partial: 'user_card', locals: { user: user } %>

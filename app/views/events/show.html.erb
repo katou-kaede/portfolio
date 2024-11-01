@@ -44,7 +44,7 @@
                 <% if @event.group_id.nil? %>
                   <strong>公開グループ:</strong> フレンド全員
                 <% else %>
-                  <strong>公開グループ:</strong> <%= @event.group.name %>
+                  <strong>公開グループ:</strong> <%= link_to @event.group.name, group_path(@event.group), class: 'text-decoration-none text-dark' %>
                 <% end %>
               <% end %>
             </div>
