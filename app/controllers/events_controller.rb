@@ -45,8 +45,9 @@ class EventsController < ApplicationController
   end
 
   def update
-    @event.group_id = nil if params[:event][:group_id] == 'all_friends'
-    if @event.update(event_params)
+    update_params = event_params
+    update_params[:group_id] = nil if params[:event][:group_id] == 'all_friends'
+    if @event.update(update_params)
       @event.update_registration_status
       redirect_to  @event, notice: 'イベントが更新されました'
     else
@@ -62,9 +63,12 @@ class EventsController < ApplicationController
       else
         if @event.date.future? && (@event.capacity.nil? || @event.capacity > @event.participants.count)
           @event.open_registration
-        else
+        elsif @event.date.past?
           flash[:alert] = "過去のイベントのため再開できません"
           redirect_to request.referer || past_events_path and return
+        elsif @event.participants.count >= @event.capacity
+          flash[:alert] = "定員のため再開できません"
+          redirect_to request.referer and return
         end
       end
     end

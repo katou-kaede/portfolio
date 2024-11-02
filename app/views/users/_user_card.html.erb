@@ -12,7 +12,7 @@
           <p class="card-text mx-4">誕生日: <%= user.profile.birthday.strftime('%Y年%m月%d日') if user.profile.birthday %></p>
         </div>
     </div>
-    <div class="ms-auto d-flex flex-column align-items-end">
+    <div class="ms-auto d-flex flex-column align-items-end justify-content-between">
       <p class="card-text border border-2 m-0 p-1">フレンドコード：<%= user.friend_code %></p>
       <% if user != current_user %>
         <div id="button_container_<%= user.id %>">
