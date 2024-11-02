@@ -13,7 +13,7 @@ class Event < ApplicationRecord
 
   # イベントの主催者かどうかを判定する
   def hosted_by?(user)
-    self.user_id == user.id
+    user.present? && self.user_id == user.id
   end
 
   # 募集を開始するメソッド
@@ -45,16 +45,20 @@ class Event < ApplicationRecord
   end
 
   scope :viewable_by, ->(user) {
-    where(
-      "visibility = 'general' OR
-      (visibility = 'limited' AND (
-        (group_id IS NULL AND EXISTS
-          (SELECT 1 FROM friendships WHERE friend_id = ? AND user_id = events.user_id)) OR
-        (group_id IS NOT NULL AND EXISTS
-          (SELECT 1 FROM group_members WHERE user_id = ? AND group_id = events.group_id))
-      )) OR
-      (events.user_id = ?)", user.id, user.id, user.id
-    )
+    if user
+      where(
+        "visibility = 'general' OR
+        (visibility = 'limited' AND (
+          (group_id IS NULL AND EXISTS
+            (SELECT 1 FROM friendships WHERE friend_id = ? AND user_id = events.user_id)) OR
+          (group_id IS NOT NULL AND EXISTS
+            (SELECT 1 FROM group_members WHERE user_id = ? AND group_id = events.group_id))
+        )) OR
+        (events.user_id = ?)", user.id, user.id, user.id
+      )
+    else
+      where(visibility: 'general')
+    end
   }
 
   private
