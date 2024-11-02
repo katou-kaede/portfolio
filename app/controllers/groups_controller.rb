@@ -1,5 +1,6 @@
 class GroupsController < ApplicationController
   before_action :authenticate_user!
+  before_action :set_group, only: [:show, :edit, :update, :destroy]
   before_action :correct_user, only: [:edit, :update, :destroy]
 
   def new
@@ -34,6 +35,8 @@ class GroupsController < ApplicationController
   end
 
   def destroy
+    @group.destroy
+    redirect_to groups_path, notice: 'グループが削除されました'
   end
 
   private
@@ -42,9 +45,13 @@ class GroupsController < ApplicationController
     params.require(:group).permit(:name, member_ids: [])
   end
 
+  def set_group
+    @group = Group.find(params[:id])
+  end
+
   def correct_user
     unless @group.user_id == current_user.id
-      redirect_to events_path, alert: 'このグループを編集・削除する権限がありません'
+      redirect_to groups_path, alert: 'このグループを編集・削除する権限がありません'
     end
   end
 end

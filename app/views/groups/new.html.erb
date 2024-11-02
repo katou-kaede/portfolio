@@ -27,11 +27,14 @@
         <%= f.submit "作成", class: 'btn btn-primary' %>
       </div>
     <% end %>
+    <div class="col-10 mt-4">
+      <%= link_to '戻る', groups_path %>
+    </div>
   </div>
 </div>
 
 <script>
-  document.addEventListener("DOMContentLoaded", () => {
+  document.addEventListener('turbo:load', () => {
     const selectBox = document.getElementById("members-select");
     const addButton = document.getElementById("add-member");
     const selectedMembersContainer = document.getElementById("selected-members");
