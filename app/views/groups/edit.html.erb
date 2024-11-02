@@ -1,0 +1,110 @@
+<div class="container-fluid bg-body-tertiary min-vh-100">
+  <div class="row mx-4">
+    <h2 class="col-12 my-4">グループ編集</h2>
+
+    <%= form_for @group, data: { turbo: false } do |f| %>
+      <%= render "shared/error_messages", object: @group %>
+      <div class="field mb-3">
+        <%= f.label :name, "グループ名" %>
+        <%= f.text_field :name, class: 'form-control' %>
+      </div>
+
+      <div class="field mb-3">
+        <label for="members-select">メンバーを追加</label>
+        <%= select_tag "group[member_ids][]", options_for_select(@friends.map { |friend| [friend.profile.name, friend.id, { 'data-avatar' => asset_path(friend.profile.avatar) }] }),
+              class: "form-select", multiple: true, id: "members-select" %>
+        <button type="button" id="add-member" class="btn btn-secondary mt-2">追加</button>
+      </div>
+
+      <div id="selected-members" class="mb-3 d-flex">
+        <% @group.members.each do |member| %>
+          <div class="selected-member d-flex flex-column justify-content-center align-items-center mx-2" data-member-id="<%= member.id %>">
+            <img src="<%= asset_path(member.profile.avatar) %>" alt="<%= member.profile.name %>'s avatar" style="width: 50px; height: 50px;">
+            <div class="d-flex">
+              <p><%= member.profile.name %></p>
+              <a href="#" class="remove-member text-decoration-none text-danger mx-1">
+                <i class="bi bi-x-circle-fill"></i>
+              </a>
+            </div>
+          </div>
+        <% end %>
+      </div>
+
+      <div class="field mb-3">
+        <%= f.submit "更新", class: 'btn btn-primary' %>
+      </div>
+    <% end %>
+    <div class="col-10 mt-4">
+      <%= link_to '戻る', :back %>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('turbo:load', () => {
+    const selectBox = document.getElementById("members-select");
+    const addButton = document.getElementById("add-member");
+    const selectedMembersContainer = document.getElementById("selected-members");
+
+    // 初期化時に既存メンバーの削除ボタンにイベントを追加
+    selectedMembersContainer.querySelectorAll(".remove-member").forEach(button => {
+      button.addEventListener("click", (event) => {
+        event.preventDefault();
+        button.closest(".selected-member").remove();
+      });
+    });
+
+    addButton.addEventListener("click", () => {
+      const selectedOptions = Array.from(selectBox.selectedOptions);
+
+      selectedOptions.forEach(option => {
+        const memberId = option.value;
+        const memberName = option.text;
+        const memberAvatar = option.getAttribute("data-avatar");
+
+        // 重複して追加されないように確認
+        if (!selectedMembersContainer.querySelector(`[data-member-id="${memberId}"]`)) {
+          const memberItem = document.createElement("div");
+          memberItem.dataset.memberId = memberId;
+          memberItem.classList.add("selected-member");
+          memberItem.innerHTML = `
+            <div class="d-flex flex-column justify-content-center align-items-center mx-2">
+              <img src="${memberAvatar}" alt="${memberName}'s avatar" style="width: 50px; height: 50px;">
+              <div class="d-flex">
+                <p>${memberName}</p>
+                <a href="#"  class="remove-member text-decoration-none text-danger mx-1">
+                  <i class="bi bi-x-circle-fill"></i>
+                </a>
+              </div>
+            </div>
+          `;
+
+          selectedMembersContainer.appendChild(memberItem);
+
+          memberItem.querySelector(".remove-member").addEventListener("click", () => {
+            memberItem.remove();
+          });
+        }
+      });
+
+      // 選択をクリア
+      selectBox.selectedIndex = -1;
+    });
+  });
+
+  // フォーム送信前に選択されたメンバーを追加
+  document.querySelector("form").addEventListener("submit", (event) => {
+    const selectedMembers = Array.from(document.querySelectorAll("#selected-members .selected-member"));
+    const memberIds = selectedMembers.map(member => member.dataset.memberId);
+
+    // 隠しフィールドに選択されたメンバーのIDをセット
+    selectedMembers.forEach(member => {
+      const memberIdsInput = document.createElement("input");
+      memberIdsInput.setAttribute("type", "hidden");
+      memberIdsInput.setAttribute("name", "group[member_ids][]");
+      memberIdsInput.value = member.dataset.memberId;
+
+      document.querySelector("form").appendChild(memberIdsInput);
+    });
+  });
+</script>

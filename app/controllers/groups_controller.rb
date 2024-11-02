@@ -13,8 +13,8 @@ class GroupsController < ApplicationController
     @group = current_user.groups.build(group_params)
     @group.user_id = current_user.id
     if @group.save
-      @group.member_ids = params[:group][:member_ids]
-      redirect_to groups_path, notice: 'グループが作成されました'
+      @group.member_ids = params[:group][:member_ids] || []
+      redirect_to @group, notice: 'グループが作成されました'
     else
       @friends = current_user.friends.includes(:profile)
       render :new, status: :unprocessable_entity, alert: 'グループ作成に失敗しました'
@@ -29,9 +29,17 @@ class GroupsController < ApplicationController
   end
 
   def edit
+    @friends = current_user.friends.includes(:profile)
   end
 
   def update
+    if @group.update(group_params)
+      @group.member_ids = params[:group][:member_ids] || []
+      redirect_to  @group, notice: 'グループが更新されました'
+    else
+      flash.now[:alert] = 'グループの更新に失敗しました'
+      render :edit
+    end
   end
 
   def destroy
