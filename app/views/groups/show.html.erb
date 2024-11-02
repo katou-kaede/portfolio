@@ -34,7 +34,11 @@
       <% end %>
     </div>
     <div class="col-10 mt-4">
-      <%= link_to '戻る', :back %>
+      <% if request.referer.present? && request.referer.include?(event_path) %>
+        <%= link_to '戻る', request.referer %>
+      <% else %>
+        <%= link_to '戻る', groups_path %>
+      <% end %>
     </div>
   </div>
 </div>
