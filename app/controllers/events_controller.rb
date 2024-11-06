@@ -4,7 +4,20 @@ class EventsController < ApplicationController
   before_action :correct_user, only: [:edit, :update, :destroy]
 
   def index
-    @events = Event.where(status: 'open').viewable_by(current_user).page(params[:page]).per(10)
+    if current_user.present?
+      @events = Event.viewable_by(current_user).search(params, current_user.id)
+    else
+      @events = Event.viewable_by(nil).search(params, nil)  # current_userがnilの場合の処理
+    end
+
+    if params[:participating] == '1' && current_user.present?
+      @events = @events.participating(current_user)
+    end
+
+    @events = @events.page(params[:page]).per(10)
+
+    @searching = params[:search].present? || params[:date].present? || params[:location].present? || (params[:participating] == '1' && user_signed_in?)
+
     @events.each do |event|
       if !event.registration_open?
         event.update(status: 'closed')

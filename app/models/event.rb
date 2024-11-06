@@ -61,6 +61,30 @@ class Event < ApplicationRecord
     end
   }
 
+  # 検索用スコープ（イベント名、場所、日付）
+  scope :search, ->(params, user_id) {
+    query = all
+    if params[:search].present?
+      query = query.where("name ILIKE ?", "%#{params[:search]}%")
+    end
+    if params[:location].present?
+      query = query.where("location ILIKE ?", "%#{params[:location]}%")
+    end
+    if params[:date].present?
+      query = query.where("DATE(date) = ?", params[:date])
+    end
+    query
+  }
+
+  # 参加中イベントのフィルタリング
+  scope :participating, ->(user) {
+    if user.present?
+      joins(:participants).where("participants.user_id = ?", user.id)
+    else
+      none
+    end
+  }
+
   private
 
   def add_host_as_participant

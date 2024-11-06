@@ -2,15 +2,58 @@
   <div class="row mx-4">
     <div class="d-flex justify-content-between align-items-center mb-4">
       <h2 class="my-4">イベント一覧</h2>
-      <div class="mx-3">
-        <a href="<%= new_event_path %>" class="btn btn-primary">+ イベント作成</a>
-      </div>
+      <% if current_user.present? %>
+        <div class="mx-3">
+          <a href="<%= new_event_path %>" class="btn btn-primary">+ イベント作成</a>
+        </div>
+      <% end %>
     </div>
+
+    <!-- 検索フォーム -->
+    <%= form_with url: events_path, method: :get, local: true do |f| %>
+      <div class="row mb-4 justify-content-center">
+        <div class="col-6">
+          <div class="form-group">
+            <%= f.text_field :search, class: 'form-control', placeholder: "イベント名で検索" %>
+          </div>
+           <div class="form-group">
+            <%= f.date_field :date, class: 'form-control', placeholder: "日付で検索" %>
+          </div>
+          <div class="form-group">
+            <%= f.text_field :location, class: 'form-control', placeholder: "開催場所で検索" %>
+          </div>
+        </div>
+        <div class="col-3 d-flex align-items-center">
+          <div class="form-group ">
+            <%= f.submit "検索", class: "btn btn-primary" %>
+          </div>
+          <div class="mx-4 form-check form-check-inline">
+            <%= f.check_box :participating, class: 'form-check-input', id: 'participation_filter' if current_user.present? %>
+            <%= f.label :participating, "参加中", class: 'form-check-label' if current_user.present? %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+
     <div class="event-list">
       <% @events.each do |event| %>
         <%= render 'event_card', event: event %>
       <% end %>
     </div>
+    <div class="col-10 mt-4">
+      <%= link_to 'リストに戻る', events_path if @searching%>
+    </div>
     <%= paginate @events, theme: 'bootstrap-5' %>
   </div>
 </div>
+
+<script>
+  document.addEventListener('turbo:load', () => {
+    const checkbox = document.getElementById('participation_filter');
+    if (checkbox) {
+      checkbox.addEventListener('change', () => {
+        checkbox.closest('form').submit();
+      });
+    }
+  });
+</script>
