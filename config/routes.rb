@@ -2,7 +2,8 @@ Rails.application.routes.draw do
   get "friendships/index"
   devise_for :users, controllers: {
     sessions: 'users/sessions',
-    registrations: 'users/registrations'
+    registrations: 'users/registrations',
+    passwords: 'users/passwords'
   }
 
   resources :users do
@@ -37,4 +38,8 @@ Rails.application.routes.draw do
   # root "posts#index"
 
   root 'static_pages#top'
+
+  if Rails.env.development?
+    mount LetterOpenerWeb::Engine, at: "/letter_opener"
+  end
 end
