@@ -16,6 +16,21 @@ ja:
     sessions:
       user:
         signed_in: "ログインしました"
+    passwords:
+      user:
+        send_instructions: "パスワードリセットの手順をメールで送信しました"
+        updated: "パスワードが更新されました"
+      send_instructions: "パスワードリセットの手順をメールで送信しました"
+    mailer:
+      reset_password_instructions:
+        subject: "パスワードの再設定"
+        title: "こんにちは、"
+        reset_password_explanation: "パスワードの変更を受け付けました。以下のリンクから変更できます。"
+        reset_password_link: "パスワードを変更する"
+        please_ignore: "※パスワードリセットの申請に心当たりがない場合は、以降の対応は不要となります。"
+        wont_change: "※上記リンクをクリックして新しいパスワードを作成しない限り、パスワードは変更されません。"
+        reset_password_within: "※リンクの有効期限は6時間です。"
+
 
   date:
     month_names: [~, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
