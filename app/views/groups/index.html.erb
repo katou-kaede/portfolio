@@ -2,14 +2,36 @@
   <div class="row mx-4 justify-content-center">
     <div class="d-flex justify-content-between align-items-center mb-4">
       <h2 class="my-4">グループリスト</h2>
-      <div class="mx-3">
-        <a href="<%= new_group_path %>" class="btn btn-primary">+ グループ作成</a>
-      </div>
+      <% if current_user.present? %>
+        <div class="mx-3">
+          <a href="<%= new_group_path %>" class="btn btn-primary">+ グループ作成</a>
+        </div>
+      <% end %>
     </div>
+
+    <!-- 検索フォーム -->
+    <%= form_with url: groups_path, method: :get, local: true do |f| %>
+      <div class="row mb-4 justify-content-center">
+        <div class="col-6">
+          <div class="form-group">
+            <%= f.text_field :search, class: 'form-control', placeholder: "グループ名で検索" %>
+          </div>
+        </div>
+        <div class="col-2">
+          <div class="form-group">
+            <%= f.submit "検索", class: "btn btn-primary" %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+
     <div class="group-list">
       <% @groups.each do |group| %>
         <%= render partial: 'group_card', locals: { group: group } %>
       <% end %>
+    </div>
+    <div class="col-10 mt-4">
+      <%= link_to 'リストに戻る', groups_path if @searching%>
     </div>
     <%= paginate @groups, theme: 'bootstrap-5' %>
   </div>
