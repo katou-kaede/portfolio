@@ -22,7 +22,13 @@ class GroupsController < ApplicationController
   end
 
   def index
-    @groups = Group.where(user_id: current_user.id).includes(:group_members).page(params[:page]).per(10)
+    if params[:search].present?
+      @groups = Group.where(user_id: current_user.id).where('name ILIKE ?', "%#{params[:search]}%").includes(:group_members).page(params[:page]).per(10)
+      @searching = true
+    else
+      @groups = Group.where(user_id: current_user.id).includes(:group_members).page(params[:page]).per(10)
+      @searching = false
+    end
   end
 
   def show
