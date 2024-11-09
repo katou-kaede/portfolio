@@ -16,6 +16,7 @@ ja:
     sessions:
       user:
         signed_in: "ログインしました"
+        already_signed_out: "すでにログアウトしています"
     passwords:
       user:
         send_instructions: "パスワードリセットの手順をメールで送信しました"
@@ -38,3 +39,4 @@ ja:
       - :year
       - :month
       - :day
+    abbr_day_names: [ "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]

@@ -29,6 +29,10 @@ class EventsController < ApplicationController
     @past_events = Event.where('date < ?', Time.current).viewable_by(current_user).order(date: :desc).page(params[:page]).per(10)
   end
 
+  def calendar
+    @events = Event.viewable_by(current_user)
+  end
+
   def new
     @event = Event.new
     @groups = Group.where(user_id: current_user.id).includes(:group_members)
