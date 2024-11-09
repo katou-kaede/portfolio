@@ -19,6 +19,7 @@ Rails.application.routes.draw do
     end
     collection do
       get 'past', to: 'events#past_index'
+      get 'calendar', to: 'events#calendar'
     end
   end
 

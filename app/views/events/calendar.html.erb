@@ -1,0 +1,20 @@
+<div class="container-fluid bg-body-tertiary min-vh-100">
+  <div class="row mx-4">
+    <h2 class="col-12 my-4">参加イベントカレンダー</h2>
+    <%= month_calendar events: @events do |date, events| %>
+      <div class="calendar-day">
+        <div class="calendar-date">
+          <%= date.day %>
+        </div>
+
+        <% events.each do |event| %>
+          <div>
+            <%= link_to event_path(event), class: 'btn btn-warning btn-sm', style: '--bs-btn-padding-y: .1rem; --bs-btn-padding-x: .25rem; --bs-btn-font-size: .75rem;' do %>
+              <%= event.date.strftime("%H:%M") %> - <%= event.name %>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+</div>

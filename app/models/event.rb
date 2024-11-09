@@ -44,6 +44,10 @@ class Event < ApplicationRecord
     true # それ以外は募集中
   end
 
+  def start_time
+    self.date
+  end
+
   scope :viewable_by, ->(user) {
     if user
       where(
