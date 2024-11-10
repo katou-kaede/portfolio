@@ -5,9 +5,9 @@ class EventsController < ApplicationController
 
   def index
     if current_user.present?
-      @events = Event.viewable_by(current_user).search(params, current_user.id)
+      @events = Event.where(status: 'open').viewable_by(current_user).search(params, current_user.id)
     else
-      @events = Event.viewable_by(nil).search(params, nil)  # current_userがnilの場合の処理
+      @events = Event.where(status: 'open').viewable_by(nil).search(params, nil)  # current_userがnilの場合の処理
     end
 
     if params[:participating] == '1' && current_user.present?
@@ -113,7 +113,7 @@ class EventsController < ApplicationController
   private
 
   def event_params
-    params.require(:event).permit(:name, :date, :location, :capacity, :visibility, :group_id, :description)
+    params.require(:event).permit(:name, :date, :location, :capacity, :visibility, :group_id, :description, :status)
   end
 
   def set_event
