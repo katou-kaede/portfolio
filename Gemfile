@@ -37,13 +37,13 @@ gem "bootsnap", require: false
 # gem "image_processing", "~> 1.2"
 gem "devise"
 
-gem 'kaminari', '1.2.2'
+gem "kaminari", "1.2.2"
 
-gem 'bootstrap5-kaminari-views'
+gem "bootstrap5-kaminari-views"
 
-gem 'dotenv-rails'
+gem "dotenv-rails"
 
-gem 'simple_calendar', '~> 2.0'
+gem "simple_calendar", "~> 2.0"
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
@@ -54,6 +54,10 @@ group :development, :test do
 
   # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
   gem "rubocop-rails-omakase", require: false
+
+  gem "rubocop-performance", require: false
+
+  gem "rubocop-rspec"
 end
 
 group :development do

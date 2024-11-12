@@ -18,12 +18,12 @@ class Event < ApplicationRecord
 
   # 募集を開始するメソッド
   def open_registration
-    update(status: 'open')
+    update(status: "open")
   end
 
   # 募集を終了するメソッド
   def close_registration
-    update(status: 'closed')
+    update(status: "closed")
   end
 
   # 募集状態を更新するメソッド
@@ -37,7 +37,7 @@ class Event < ApplicationRecord
 
   # 募集中かどうかを判定するメソッド
   def registration_open?
-    return false if status == 'closed'
+    return false if status == "closed"
     return false if date.past? # 過去のイベントは募集終了
     return false if capacity.present? && participants.count >= capacity # 定員に達しているイベントは募集終了
 
@@ -61,7 +61,7 @@ class Event < ApplicationRecord
         (events.user_id = ?)", user.id, user.id, user.id
       )
     else
-      where(visibility: 'general')
+      where(visibility: "general")
     end
   }
 

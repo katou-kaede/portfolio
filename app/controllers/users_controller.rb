@@ -25,7 +25,7 @@ class UsersController < ApplicationController
   def update
     @user = current_user
     if @user.update(user_params)
-      redirect_to user_path(current_user), notice: 'プロフィールが更新されました'
+      redirect_to user_path(current_user), notice: "プロフィールが更新されました"
     else
       render :edit, status: :unprocessable_entity
     end
@@ -41,7 +41,7 @@ class UsersController < ApplicationController
 
     @button_container_id = "button_container_#{@user.id}"
     respond_to do |format|
-      format.turbo_stream { render 'users/toggle_button' }
+      format.turbo_stream { render "users/toggle_button" }
       format.html { redirect_to users_path }
     end
   end
@@ -49,7 +49,7 @@ class UsersController < ApplicationController
   private
 
   def user_params
-    params.require(:user).permit(:email, :password, :friend_code, profile_attributes: [:id, :name, :bio, :birthday, :avatar])
+    params.require(:user).permit(:email, :password, :friend_code, profile_attributes: [ :id, :name, :bio, :birthday, :avatar ])
   end
 
   def profile_params
