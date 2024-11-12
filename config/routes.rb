@@ -1,25 +1,25 @@
 Rails.application.routes.draw do
   get "friendships/index"
   devise_for :users, controllers: {
-    sessions: 'users/sessions',
-    registrations: 'users/registrations',
-    passwords: 'users/passwords'
+    sessions: "users/sessions",
+    registrations: "users/registrations",
+    passwords: "users/passwords"
   }
 
   resources :users do
     member do
-      post :toggle_friendship, to: 'users#toggle_friendship'
+      post :toggle_friendship, to: "users#toggle_friendship"
     end
   end
 
   resources :events do
     member do
-      post 'toggle_registration', to: 'events#toggle_registration' # 募集中/募集終了の切り替え
-      post 'toggle_participation', to: 'events#toggle_participation' # 参加する/参加中の切り替え
+      post "toggle_registration", to: "events#toggle_registration" # 募集中/募集終了の切り替え
+      post "toggle_participation", to: "events#toggle_participation" # 参加する/参加中の切り替え
     end
     collection do
-      get 'past', to: 'events#past_index'
-      get 'calendar', to: 'events#calendar'
+      get "past", to: "events#past_index"
+      get "calendar", to: "events#calendar"
     end
   end
 
@@ -38,9 +38,9 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   # root "posts#index"
 
-  root 'static_pages#top'
-  get 'terms_of_service', to: 'static_pages#terms_of_service'
-  get 'privacy_policy', to: 'static_pages#privacy_policy'
+  root "static_pages#top"
+  get "terms_of_service", to: "static_pages#terms_of_service"
+  get "privacy_policy", to: "static_pages#privacy_policy"
 
   if Rails.env.development?
     mount LetterOpenerWeb::Engine, at: "/letter_opener"

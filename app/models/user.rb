@@ -19,7 +19,7 @@ class User < ApplicationRecord
   has_many :friends, through: :friendships, source: :friend
 
   # 自分を友達として追加した関係
-  has_many :inverse_friendships, class_name: 'Friendship', foreign_key: 'friend_id', dependent: :destroy
+  has_many :inverse_friendships, class_name: "Friendship", foreign_key: "friend_id", dependent: :destroy
   has_many :inverse_friends, through: :inverse_friendships, source: :user
 
   has_many :group_members, foreign_key: :user_id
@@ -32,11 +32,10 @@ class User < ApplicationRecord
   # private
 
   # def create_profile
-    # Profile.create(user: self, name: self.profile_attributes[:name]) if self.profile_attributes.present?
+  # Profile.create(user: self, name: self.profile_attributes[:name]) if self.profile_attributes.present?
   # end
 
   def update_without_current_password(params, *options)
-
     if params[:password].blank? && params[:password_confirmation].blank?
       params.delete(:password)
       params.delete(:password_confirmation)

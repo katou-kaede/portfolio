@@ -1,32 +1,32 @@
 class EventsController < ApplicationController
-  before_action :authenticate_user!, only:[:new, :create, :edit, :update, :destroy, :toggle_registration]
-  before_action :set_event, only: [:show, :edit, :update, :destroy, :toggle_registration, :toggle_participation]
-  before_action :correct_user, only: [:edit, :update, :destroy]
+  before_action :authenticate_user!, only: [ :new, :create, :edit, :update, :destroy, :toggle_registration ]
+  before_action :set_event, only: [ :show, :edit, :update, :destroy, :toggle_registration, :toggle_participation ]
+  before_action :correct_user, only: [ :edit, :update, :destroy ]
 
   def index
     if current_user.present?
-      @events = Event.where(status: 'open').viewable_by(current_user).search(params, current_user.id)
+      @events = Event.where(status: "open").viewable_by(current_user).search(params, current_user.id)
     else
-      @events = Event.where(status: 'open').viewable_by(nil).search(params, nil)  # current_userがnilの場合の処理
+      @events = Event.where(status: "open").viewable_by(nil).search(params, nil)  # current_userがnilの場合の処理
     end
 
-    if params[:participating] == '1' && current_user.present?
+    if params[:participating] == "1" && current_user.present?
       @events = @events.participating(current_user)
     end
 
     @events = @events.page(params[:page]).per(10)
 
-    @searching = params[:search].present? || params[:date].present? || params[:location].present? || (params[:participating] == '1' && user_signed_in?)
+    @searching = params[:search].present? || params[:date].present? || params[:location].present? || (params[:participating] == "1" && user_signed_in?)
 
     @events.each do |event|
       if !event.registration_open?
-        event.update(status: 'closed')
+        event.update(status: "closed")
       end
     end
   end
 
   def past_index
-    @past_events = Event.where('date < ?', Time.current).viewable_by(current_user).order(date: :desc).page(params[:page]).per(10)
+    @past_events = Event.where("date < ?", Time.current).viewable_by(current_user).order(date: :desc).page(params[:page]).per(10)
   end
 
   def calendar
@@ -41,9 +41,9 @@ class EventsController < ApplicationController
   def create
     @event = current_user.events.build(event_params)
     @event.user_id = current_user.id
-    @event.group_id = nil if params[:event][:group_id] == 'all_friends'
+    @event.group_id = nil if params[:event][:group_id] == "all_friends"
     if @event.save
-      redirect_to @event, notice: 'イベントが作成されました'
+      redirect_to @event, notice: "イベントが作成されました"
     else
       render :new
     end
@@ -58,17 +58,17 @@ class EventsController < ApplicationController
 
   def destroy
     @event.destroy
-    redirect_to events_path, notice: 'イベントが削除されました'
+    redirect_to events_path, notice: "イベントが削除されました"
   end
 
   def update
     update_params = event_params
-    update_params[:group_id] = nil if params[:event][:group_id] == 'all_friends'
+    update_params[:group_id] = nil if params[:event][:group_id] == "all_friends"
     if @event.update(update_params)
       @event.update_registration_status
-      redirect_to  @event, notice: 'イベントが更新されました'
+      redirect_to @event, notice: "イベントが更新されました"
     else
-      flash.now[:alert] = 'イベントの更新に失敗しました'
+      flash.now[:alert] = "イベントの更新に失敗しました"
       render :edit
     end
   end
@@ -92,7 +92,7 @@ class EventsController < ApplicationController
 
     @button_container_id = "button_container_#{@event.id}"
     respond_to do |format|
-      format.turbo_stream { render 'toggle_button' }
+      format.turbo_stream { render "toggle_button" }
       format.html { redirect_to events_path }
     end
   end
@@ -105,7 +105,7 @@ class EventsController < ApplicationController
     end
     @button_container_id = "button_container_#{@event.id}"
     respond_to do |format|
-      format.turbo_stream { render 'toggle_button' }
+      format.turbo_stream { render "toggle_button" }
       format.html { redirect_to events_path }
     end
   end
@@ -122,7 +122,7 @@ class EventsController < ApplicationController
 
   def correct_user
     unless @event.hosted_by?(current_user)
-      redirect_to events_path, alert: 'このイベントを編集・削除する権限がありません'
+      redirect_to events_path, alert: "このイベントを編集・削除する権限がありません"
     end
   end
 end
