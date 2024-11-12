@@ -7,6 +7,13 @@ class Group < ApplicationRecord
 
   validates :name, presence: true
 
+  # グループメンバー追加メソッド
+  def add_member(user)
+    unless members.include?(user)
+      group_members.create(user: user)
+    end
+  end
+
   private
 
   def remove_group_from_events
