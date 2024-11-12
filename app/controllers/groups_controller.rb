@@ -5,7 +5,7 @@ class GroupsController < ApplicationController
 
   def new
     @group = Group.new
-    @group.group_members.build
+    # @group.group_members.build
     @friends = current_user.friends.includes(:profile)
   end
 
@@ -13,7 +13,12 @@ class GroupsController < ApplicationController
     @group = current_user.groups.build(group_params)
     @group.user_id = current_user.id
     if @group.save
-      @group.member_ids = params[:group][:member_ids] || []
+      new_member_ids = params[:group][:member_ids] || []
+      new_member_ids.each do |member_id|
+        user = User.find(member_id)
+        @group.add_member(user)
+      end
+
       redirect_to @group, notice: "グループが作成されました"
     else
       @friends = current_user.friends.includes(:profile)
@@ -40,7 +45,12 @@ class GroupsController < ApplicationController
 
   def update
     if @group.update(group_params)
-      @group.member_ids = params[:group][:member_ids] || []
+      new_member_ids = params[:group][:member_ids] || []
+      new_member_ids.each do |member_id|
+        user = User.find(member_id)
+        @group.add_member(user)
+      end
+
       redirect_to @group, notice: "グループが更新されました"
     else
       flash.now[:alert] = "グループの更新に失敗しました"

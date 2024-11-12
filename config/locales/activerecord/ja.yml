@@ -17,12 +17,13 @@ ja:
         location: "場所"
         capacity: "定員"
         visibility: "公開範囲"
-        visibility:
-          general: "一般公開"
-          limited: "限定公開"
         description: "詳細"
       group:
         name: "グループ名"
+      emus:
+        visibility:
+            general: "一般公開"
+            limited: "限定公開"
 
   errors:
     messages:
@@ -32,11 +33,13 @@ ja:
       blank: "を入力してください"
       confirmation: "が一致しません"
       too_short: "は%{count}文字以上で入力してください"
+      too_long: "は%{count}文字以内で入力してください"
       taken: "がすでに使用されています"
       invalid: "が無効です"
       too_short: "が短すぎます"
       too_long: "が長すぎます"
       confirmation: "が一致しません"
+      record_invalid: "無効なレコードです"
     attributes:
       current_password:
         invalid: "が正しくありません"
