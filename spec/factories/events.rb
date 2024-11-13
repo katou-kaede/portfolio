@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :event do
     association :user
-    name { "Sample Event" }
+    name { Faker::Lorem.sentence(word_count: 3) }
     date { 1.week.from_now }
     location { "Sample Location" }
     capacity { 10 }

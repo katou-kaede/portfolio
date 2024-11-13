@@ -34,17 +34,17 @@
           <%# p.date_select :birthday, start_year: 1930, end_year: Time.current.year, class: 'form-select', month_class: 'form-select', day_class: 'form-select', year_class: 'form-select' %>
           <div class="d-flex g-2 align-items-center">
               <div class="col-auto em-2">
-                <select class="form-select form-select-sm" name="user[profile_attributes][birthday(1i)]">
+                <select class="form-select form-select-sm" id="BirthdayYear" name="user[profile_attributes][birthday(1i)]">
                   <%= options_for_select([[nil, '']] + (1940..Time.current.year).to_a.map { |y| [y, y] }, selected: @user.profile.birthday&.year) %>
                 </select>
               </div>
               <div class="col-auto em-2">
-                <select class="form-select form-select-sm" name="user[profile_attributes][birthday(2i)]">
+                <select class="form-select form-select-sm" id="BirthdayMonth" name="user[profile_attributes][birthday(2i)]">
                   <%= options_for_select([[nil, '']] + (1..12).to_a.map { |m| [m, m] }, selected: @user.profile.birthday&.month) %>
                 </select>
               </div>
               <div class="col-auto em-2">
-                <select class="form-select form-select-sm" name="user[profile_attributes][birthday(3i)]">
+                <select class="form-select form-select-sm" id="BirthdayDay" name="user[profile_attributes][birthday(3i)]">
                   <%= options_for_select([[nil, '']] + (1..31).to_a.map { |d| [d, d] }, selected: @user.profile.birthday&.day) %>
                 </select>
               </div>

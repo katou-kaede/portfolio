@@ -33,14 +33,14 @@
       <div class="d-flex">
         <div class="mb-3 col-auto">
           <%= f.label :visibility, "公開範囲" %><br />
-          <%= f.select :visibility, options_for_select([['一般公開', 'general'], ['限定公開', 'limited']], @event.visibility), {}, class: 'form-select' %>
+          <%= f.select :visibility, options_for_select([['一般公開', 'general'], ['限定公開', 'limited']], @event.visibility), {}, { id: 'event_visibility', class: 'form-select'} %>
         </div>
       </div>
 
       <div class="d-flex">
         <div class="field mb-3 col-auto" id="group_select_container" style="display: none;">
           <%= f.label :group_id, "公開グループ" %><br />
-          <%= f.select :group_id, options_for_select([['フレンド全員', 'all_friends']] + @groups.map { |group| [group.name, group.id] }, @event.group_id), {}, { class: 'form-select' } %>
+          <%= f.select :group_id, options_for_select([['フレンド全員', 'all_friends']] + (@groups.present? ? @groups.map { |group| [group.name, group.id] } : []), @event.group_id), {}, { class: 'form-select' } %>
         </div>
       </div>
 

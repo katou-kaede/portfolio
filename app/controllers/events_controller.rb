@@ -35,13 +35,19 @@ class EventsController < ApplicationController
 
   def new
     @event = Event.new
-    @groups = Group.where(user_id: current_user.id).includes(:group_members)
+    @groups = Group.where(user_id: current_user.id).includes(:group_members) || []
   end
 
   def create
     @event = current_user.events.build(event_params)
     @event.user_id = current_user.id
-    @event.group_id = nil if params[:event][:group_id] == "all_friends"
+
+    if params[:event][:visibility] == "general"
+      @event.group_id = nil
+    elsif params[:event][:group_id] == "all_friends"
+      @event.group_id = nil
+    end
+
     if @event.save
       redirect_to @event, notice: "イベントが作成されました"
     else
@@ -53,7 +59,7 @@ class EventsController < ApplicationController
   end
 
   def edit
-    @groups = Group.where(user_id: current_user.id).includes(:group_members)
+    @groups = Group.where(user_id: current_user.id).includes(:group_members) || []
   end
 
   def destroy
@@ -63,7 +69,13 @@ class EventsController < ApplicationController
 
   def update
     update_params = event_params
-    update_params[:group_id] = nil if params[:event][:group_id] == "all_friends"
+
+    if params[:event][:visibility] == "general"
+      update_params[:group_id] = nil
+    elsif params[:event][:group_id] == "all_friends"
+      update_params[:group_id] = nil
+    end
+
     if @event.update(update_params)
       @event.update_registration_status
       redirect_to @event, notice: "イベントが更新されました"

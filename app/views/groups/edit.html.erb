@@ -11,7 +11,7 @@
 
       <div class="field mb-3">
         <label for="members-select">メンバーを追加</label>
-        <%= select_tag "group[member_ids][]", options_for_select(@friends.map { |friend| [friend.profile.name, friend.id, { 'data-avatar' => asset_path(friend.profile.avatar) }] }),
+        <%= select_tag "group[member_ids][]", options_for_select(@friends.present? ? @friends.map { |friend| [friend.profile.name, friend.id, { 'data-avatar' => asset_path(friend.profile.avatar) }] } : []),
               class: "form-select", multiple: true, id: "members-select" %>
         <button type="button" id="add-member" class="btn btn-secondary mt-2">追加</button>
       </div>

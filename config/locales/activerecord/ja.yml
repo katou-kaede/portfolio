@@ -17,13 +17,16 @@ ja:
         location: "場所"
         capacity: "定員"
         visibility: "公開範囲"
+        visibility:
+          general: "一般公開"
+          limited: "限定公開"
         description: "詳細"
       group:
         name: "グループ名"
       emus:
         visibility:
-            general: "一般公開"
-            limited: "限定公開"
+          general: "一般公開"
+          limited: "限定公開"
 
   errors:
     messages:
