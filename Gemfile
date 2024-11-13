@@ -66,6 +66,10 @@ group :development, :test do
   gem 'faker'
 
   gem 'shoulda-matchers', '~> 5.0'
+
+  gem 'pry'
+
+  gem 'pry-rails'
 end
 
 group :development do
@@ -78,4 +82,5 @@ group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
   gem "capybara"
   gem "selenium-webdriver"
+  gem "webdrivers"
 end
