@@ -2,7 +2,8 @@ class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable
+         :recoverable, :rememberable, :validatable,
+         :omniauthable, omniauth_providers: [:line]
 
   has_one :profile, dependent: :destroy
   accepts_nested_attributes_for :profile
@@ -74,5 +75,27 @@ class User < ApplicationRecord
   # フォロー解除するメソッド
   def unfollow(other_user)
     friendships.find_by(friend_id: other_user.id)&.destroy
+  end
+
+  def self.from_omniauth(auth)
+    user = where(provider: auth.provider, uid: auth.uid).first_or_create do |u|
+      u.email = auth.info.email || "#{auth.uid}@example.com"
+      u.password = Devise.friendly_token[0, 20]
+    end
+
+    # ProfileにLINEの名前を保存
+    user.build_profile(name: auth.info.name).save unless user.profile.present?
+    user
+  end
+
+  def set_values(omniauth)
+    return if provider.to_s != omniauth["provider"].to_s || uid != omniauth["uid"]
+    credentials = omniauth["credentials"]
+    info = omniauth["info"]
+
+    access_token = credentials["refresh_token"]
+    access_secret = credentials["secret"]
+    credentials = credentials.to_json
+    name = info["name"]
   end
 end
