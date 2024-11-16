@@ -31,6 +31,10 @@ ja:
         please_ignore: "※パスワードリセットの申請に心当たりがない場合は、以降の対応は不要となります。"
         wont_change: "※上記リンクをクリックして新しいパスワードを作成しない限り、パスワードは変更されません。"
         reset_password_within: "※リンクの有効期限は6時間です。"
+    omniauth_callbacks:
+      failure: "ログインに失敗しました。再試行してください"
+      user:
+        failure: "ユーザーの作成に失敗しました。再試行してください"
 
 
   date:
