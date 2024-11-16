@@ -69,7 +69,7 @@ group :development, :test do
 
   gem "faker"
 
-  gem "shoulda-matchers", "~> 5.0"
+  gem "shoulda-matchers", "~> 6.4"
 
   gem "pry"
 
