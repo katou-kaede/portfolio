@@ -5,7 +5,7 @@ class EventNotifier
     events = Event.where("date >= ? AND date <= ?", Time.zone.tomorrow.beginning_of_day, Time.zone.tomorrow.end_of_day)
     events.each do |event|
       event.participants.each do |participant|
-        send_line_message(participant.line_user_id, event)
+        send_line_message(participant.user.uid, event)
       end
     end
   end
