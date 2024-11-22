@@ -3,7 +3,7 @@ name: CI
 on:
   pull_request:
   push:
-    branches: [ main ]
+    branches: [ master ]
 
 jobs:
   scan_ruby:
@@ -110,6 +110,6 @@ jobs:
         run: curl -fsSL https://cdn.render.com/install.sh | bash
 
       - name: Deploy to Render
-        run: render deploy --service YOUR_RENDER_SERVICE_NAME
+        run: render deploy --service event_station
         env:
           RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }}
