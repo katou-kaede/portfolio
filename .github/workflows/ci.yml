@@ -112,6 +112,7 @@ jobs:
         run: |
           curl -fsSL https://cdn.render.com/install.sh | bash
           echo "$HOME/.render/bin" >> $GITHUB_PATH
+          export PATH="$HOME/.render/bin:$PATH"
 
       - name: Deploy to Render
         run: render deploy --service event_station --auto-approve
