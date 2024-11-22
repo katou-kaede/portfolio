@@ -69,10 +69,18 @@ jobs:
           ruby-version: .ruby-version
           bundler-cache: true
 
+      - name: Install dependencies
+        run: bundle install
+
+      - name: Set up database
+        run: |
+          bin/rails db:create
+          bin/rails db:migrate
+
       - name: Run tests
         env:
           RAILS_ENV: test
-          DATABASE_URL: postgres://postgres:postgres@localhost:5432
+          DATABASE_URL: postgres://postgres:postgres@localhost:5432/myapp_test
           # REDIS_URL: redis://localhost:6379/0
         # run: bin/rails db:test:prepare test test:system
         run: bundle exec rspec
@@ -84,3 +92,24 @@ jobs:
           name: screenshots
           path: ${{ github.workspace }}/tmp/screenshots
           if-no-files-found: ignore
+
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: .ruby-version
+          bundler-cache: true
+
+      - name: Install Render CLI
+        run: curl -fsSL https://cdn.render.com/install.sh | bash
+
+      - name: Deploy to Render
+        run: render deploy --service YOUR_RENDER_SERVICE_NAME
+        env:
+          RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }}
