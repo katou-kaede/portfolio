@@ -37,18 +37,19 @@
 
       if (currentUid) {
         // GASエンドポイントにリクエストを送信
-        const gasEndpoint = "https://script.google.com/macros/s/AKfycbxjzuWLndE-WC9ziRfqKhwIWkkrZ4mFGj03LfeztHMpdPq5v3u2DrXEF7TAZuu9QI-f-w/exec"; 
+        const gasEndpoint = "https://script.google.com/macros/s/AKfycbxjzuWLndE-WC9ziRfqKhwIWkkrZ4mFGj03LfeztHMpdPq5v3u2DrXEF7TAZuu9QI-f-w/exec";
+        const formData = new URLSearchParams();
+        formData.append('uid', currentUid);
+
         const res = await fetch(gasEndpoint, {
           method: "POST",
           headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/x-www-form-urlencoded",
           },
-          body: JSON.stringify({
-            uid: currentUid,
-          }),
+          body: formData,
         });
 
-        const result = await res.json();
+        const result = await res.text();
         console.log("GAS送信結果:", result);
       } else {
         console.error("UIDが取得できません");
