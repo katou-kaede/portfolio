@@ -73,11 +73,11 @@ jobs:
         run: bundle install
 
       - name: Set up database
-        env:
-          RAILS_ENV: test
         run: |
-          bin/rails db:create
-          bin/rails db:migrate
+        cp config/database.yml.ci config/database.yml
+        bin/rails db:create RAILS_ENV=test
+        bin/rails db:schema:load RAILS_ENV=test
+        bin/rails db:migrate RAILS_ENV=test
 
       - name: Run tests
         env:
@@ -108,13 +108,18 @@ jobs:
           ruby-version: .ruby-version
           bundler-cache: true
 
-      - name: Install Render CLI
-        run: |
-          curl -fsSL https://cdn.render.com/install.sh | bash
-          echo "$HOME/.render/bin" >> $GITHUB_PATH
-          export PATH="$HOME/.render/bin:$PATH"
+     # - name: Install Render CLI
+       # run: |
+         # curl -fsSL https://cdn.render.com/install.sh | bash
+         # echo "$HOME/.render/bin" >> $GITHUB_PATH
+         # echo "PATH=$HOME/.render/bin:$PATH" >> $GITHUB_ENV
 
       - name: Deploy to Render
-        run: render deploy --service event_station --auto-approve
-        env:
+       env:
           RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }}
+          RENDER_SERVICE_ID: ${{ secrets.RENDER_SERVICE_ID }}
+        run: |
+          curl -X POST \
+            -H "Accept: application/json" \
+            -H "Authorization: Bearer $RENDER_API_KEY" \
+            https://api.render.com/v1/services/$RENDER_SERVICE_ID/deploys

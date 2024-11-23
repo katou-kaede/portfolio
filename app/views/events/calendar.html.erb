@@ -28,37 +28,33 @@
 </div>
 
 <script>
-  document.addEventListener("DOMContentLoaded", function() {
-    // 明日開催予定のイベント情報を取得
-    const events = <%= @events.to_json.html_safe %>;
+  document.addEventListener("DOMContentLoaded", async function() {
+    try {
+      // Rails APIから現在のUIDを取得
+      const response = await fetch('/api/current_uid');
+      const data = await response.json();
+      const currentUid = data.uid;
 
-    // イベント情報をGoogle Apps Scriptに送信
-    if (events.length > 0) {
-      sendEventsToGoogleAppsScript(events);
+      if (currentUid) {
+        // GASエンドポイントにリクエストを送信
+        const gasEndpoint = "https://script.google.com/macros/s/AKfycbxjzuWLndE-WC9ziRfqKhwIWkkrZ4mFGj03LfeztHMpdPq5v3u2DrXEF7TAZuu9QI-f-w/exec"; 
+        const res = await fetch(gasEndpoint, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            uid: currentUid,
+          }),
+        });
+
+        const result = await res.json();
+        console.log("GAS送信結果:", result);
+      } else {
+        console.error("UIDが取得できません");
+      }
+    } catch (error) {
+      console.error("エラー:", error);
     }
   });
-
-  function sendEventsToGoogleAppsScript(events) {
-    // Google Apps Scriptのエンドポイントを設定
-    const url = "https://script.google.com/macros/s/AKfycbxjzuWLndE-WC9ziRfqKhwIWkkrZ4mFGj03LfeztHMpdPq5v3u2DrXEF7TAZuu9QI-f-w/exec";
-
-    // POSTリクエストでイベント情報を送信
-    fetch(url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        events: events
-      }),
-      mode: "cors"
-    })
-    .then(response => response.json())
-    .then(data => {
-      console.log("通知送信結果:", data);
-    })
-    .catch(error => {
-      console.error("エラー:", error);
-    });
-  }
 </script>
