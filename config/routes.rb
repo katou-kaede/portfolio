@@ -4,7 +4,7 @@ Rails.application.routes.draw do
     sessions: "users/sessions",
     registrations: "users/registrations",
     passwords: "users/passwords",
-    omniauth_callbacks: "omniauth_callbacks"
+    omniauth_callbacks: "omniauth_callbacks",
     current_uid: "/api/current_uid"
   }
 
