@@ -3,7 +3,7 @@ name: CI
 on:
   pull_request:
   push:
-    branches: [ main ]
+    branches: [ master ]
 
 jobs:
   scan_ruby:
@@ -74,7 +74,7 @@ jobs:
 
       - name: Set up database
         run: |
-        cp config/database.yml.ci config/database.yml
+        cp config/database.yml
         bin/rails db:create RAILS_ENV=test
         bin/rails db:schema:load RAILS_ENV=test
         bin/rails db:migrate RAILS_ENV=test
