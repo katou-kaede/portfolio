@@ -1,7 +1,7 @@
 class LineNotificationController < ApplicationController
   before_action :authenticate_user!
-  require 'net/http'
-  require 'uri'
+  require "net/http"
+  require "uri"
 
   def send_notification
     events = Event.viewable_by(current_user)
@@ -30,15 +30,15 @@ class LineNotificationController < ApplicationController
     http.use_ssl = true
 
     request = Net::HTTP::Post.new(uri.path, {
-      'Content-Type' => 'application/json',
-      'Authorization' => "Bearer #{ENV['LINE_CHANNEL_TOKEN']}"
+      "Content-Type" => "application/json",
+      "Authorization" => "Bearer #{ENV['LINE_CHANNEL_TOKEN']}"
     })
 
     message = {
       to: current_user.uid,
       messages: [
         {
-          type: 'text',
+          type: "text",
           text: "明日開催予定のイベント「#{event.name}」に参加予定です！お忘れなく。#{event_path(event)}"
         }
       ]
@@ -50,9 +50,9 @@ class LineNotificationController < ApplicationController
   end
 
   def authenticate_request
-    token = request.headers['Authorization']&.split(' ')&.last
-    unless token == ENV['API_TOKEN']
-      render json: { error: 'Unauthorized' }, status: :unauthorized
+    token = request.headers["Authorization"]&.split(" ")&.last
+    unless token == ENV["API_TOKEN"]
+      render json: { error: "Unauthorized" }, status: :unauthorized
     end
   end
 end
