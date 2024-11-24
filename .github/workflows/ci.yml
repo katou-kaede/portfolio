@@ -74,10 +74,10 @@ jobs:
 
       - name: Set up database
         run: |
-        cp config/database.yml
-        bin/rails db:create RAILS_ENV=test
-        bin/rails db:schema:load RAILS_ENV=test
-        bin/rails db:migrate RAILS_ENV=test
+          cp config/database.yml
+          bin/rails db:create RAILS_ENV=test
+          bin/rails db:schema:load RAILS_ENV=test
+          bin/rails db:migrate RAILS_ENV=test
 
       - name: Run tests
         env:
