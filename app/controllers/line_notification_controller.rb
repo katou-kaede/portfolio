@@ -1,5 +1,5 @@
 class LineNotificationController < ApplicationController
-  before_action :authenticate_user!
+  before_action :authenticate_request
   require "net/http"
   require "uri"
 

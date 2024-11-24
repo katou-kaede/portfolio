@@ -73,10 +73,7 @@ jobs:
         run: bundle install
 
       - name: Set up database
-        env:
-          PGHOST: db
-          PGUSER: postgres
-          PGPASSWORD: password
+          export DATABASE_URL=postgres://postgres:password@postgres:5432/myapp_test
         run: |
           bin/rails db:create RAILS_ENV=test
           bin/rails db:schema:load RAILS_ENV=test
