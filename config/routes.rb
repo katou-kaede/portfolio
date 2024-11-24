@@ -10,9 +10,10 @@ Rails.application.routes.draw do
   resources :users do
     member do
       post :toggle_friendship, to: "users#toggle_friendship"
-      get :current_uid, to: "users#current_uid"
     end
   end
+
+  get "/api/current_uid", to: "users#current_uid"
 
   resources :events do
     member do
