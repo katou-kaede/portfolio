@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get "line_notification/send_notification"
   get "friendships/index"
   devise_for :users, controllers: {
     sessions: "users/sessions",
@@ -12,8 +13,6 @@ Rails.application.routes.draw do
       post :toggle_friendship, to: "users#toggle_friendship"
     end
   end
-
-  get "/api/current_uid", to: "users#current_uid"
 
   resources :events do
     member do
@@ -44,6 +43,7 @@ Rails.application.routes.draw do
   root "static_pages#top"
   get "terms_of_service", to: "static_pages#terms_of_service"
   get "privacy_policy", to: "static_pages#privacy_policy"
+  post "line_notification/send_notification", to: "line_notification#send_notification"
 
   if Rails.env.development?
     mount LetterOpenerWeb::Engine, at: "/letter_opener"
