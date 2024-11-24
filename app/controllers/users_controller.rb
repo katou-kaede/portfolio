@@ -46,10 +46,6 @@ class UsersController < ApplicationController
     end
   end
 
-  def current_uid
-    render json: { uid: current_user.uid }
-  end
-
   private
 
   def user_params

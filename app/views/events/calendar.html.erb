@@ -26,36 +26,3 @@
     <% end %>
   </div>
 </div>
-
-<script>
-  document.addEventListener("DOMContentLoaded", async function() {
-    try {
-      // Rails APIから現在のUIDを取得
-      const response = await fetch('/api/current_uid');
-      const data = await response.json();
-      const currentUid = data.uid;
-
-      if (currentUid) {
-        // GASエンドポイントにリクエストを送信
-        const gasEndpoint = "https://script.google.com/macros/s/AKfycbxjzuWLndE-WC9ziRfqKhwIWkkrZ4mFGj03LfeztHMpdPq5v3u2DrXEF7TAZuu9QI-f-w/exec";
-        const formData = new URLSearchParams();
-        formData.append('uid', currentUid);
-
-        const res = await fetch(gasEndpoint, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/x-www-form-urlencoded",
-          },
-          body: formData,
-        });
-
-        const result = await res.text();
-        console.log("GAS送信結果:", result);
-      } else {
-        console.error("UIDが取得できません");
-      }
-    } catch (error) {
-      console.error("エラー:", error);
-    }
-  });
-</script>
