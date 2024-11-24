@@ -4,13 +4,13 @@ Rails.application.routes.draw do
     sessions: "users/sessions",
     registrations: "users/registrations",
     passwords: "users/passwords",
-    omniauth_callbacks: "omniauth_callbacks",
-    current_uid: "/api/current_uid"
+    omniauth_callbacks: "omniauth_callbacks"
   }
 
   resources :users do
     member do
       post :toggle_friendship, to: "users#toggle_friendship"
+      get :current_uid, to: "users#current_uid"
     end
   end
 

@@ -31,7 +31,7 @@
   document.addEventListener("DOMContentLoaded", async function() {
     try {
       // Rails APIから現在のUIDを取得
-      const response = await fetch('/api/current_uid');
+      const response = await fetch('/current_uid');
       const data = await response.json();
       const currentUid = data.uid;
 
