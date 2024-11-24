@@ -1,4 +1,5 @@
 class LineNotificationController < ApplicationController
+  before_action :authenticate_user!
   require 'net/http'
   require 'uri'
 
@@ -23,7 +24,7 @@ class LineNotificationController < ApplicationController
     if current_user.uid.blank?
       return # UIDがない場合は通知を送らない
     end
-    
+
     uri = URI.parse("https://api.line.me/v2/bot/message/push")
     http = Net::HTTP.new(uri.host, uri.port)
     http.use_ssl = true
@@ -46,5 +47,12 @@ class LineNotificationController < ApplicationController
     request.body = message.to_json
 
     response = http.request(request)
+  end
+
+  def authenticate_request
+    token = request.headers['Authorization']&.split(' ')&.last
+    unless token == ENV['API_TOKEN']
+      render json: { error: 'Unauthorized' }, status: :unauthorized
+    end
   end
 end
