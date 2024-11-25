@@ -1,18 +1,18 @@
 class LineNotificationController < ApplicationController
-  skip_before_action :verify_authenticity_token
+  before_action :authenticate_user!, only: :send_notification
+  skip_before_action :verify_authenticity_token, only: :send_line_notification
   before_action :authenticate_request
   require "net/http"
   require "uri"
 
   def send_notification
-    events = Event.viewable_by(current_user)
-                  .joins(:participants)
+    events = Event.joins(:participants)
                   .where(participants: { user_id: current_user.id })
                   .where("date >= ? AND date <= ?", Time.zone.tomorrow.beginning_of_day, Time.zone.tomorrow.end_of_day)
 
-    if events.any?
+    if events.any? && current_user.uid.present?
       events.each do |event|
-        send_line_notification(event)
+        send_line_notification(event, current_user.uid)
       end
     end
 
@@ -21,11 +21,7 @@ class LineNotificationController < ApplicationController
 
   private
 
-  def send_line_notification(event)
-    if current_user.uid.blank?
-      return # UIDがない場合は通知を送らない
-    end
-
+  def send_line_notification(event, recipient_uid)
     uri = URI.parse("https://api.line.me/v2/bot/message/push")
     http = Net::HTTP.new(uri.host, uri.port)
     http.use_ssl = true
@@ -36,7 +32,7 @@ class LineNotificationController < ApplicationController
     })
 
     message = {
-      to: current_user.uid,
+      to: recipient_uid,
       messages: [
         {
           type: "text",

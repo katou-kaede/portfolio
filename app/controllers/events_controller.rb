@@ -30,7 +30,7 @@ class EventsController < ApplicationController
   end
 
   def calendar
-    @events = Event.viewable_by(current_user).joins(:participants).where(participants: { user_id: current_user.id })
+    @events = Event.joins(:participants).where(participants: { user_id: current_user.id })
   end
 
   def new
