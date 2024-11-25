@@ -1,5 +1,6 @@
 class LineNotificationController < ApplicationController
   before_action :authenticate_user!, only: :set_current_user
+  before_action :set_current_user, only: :send_notification
   skip_before_action :verify_authenticity_token, only: [:send_line_notification, :send_notification]
   before_action :authenticate_request, only: [:send_line_notification, :send_notification]
   require "net/http"
