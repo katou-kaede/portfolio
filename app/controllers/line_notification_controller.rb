@@ -1,18 +1,18 @@
 class LineNotificationController < ApplicationController
-  before_action :authenticate_user!, only: :send_notification
-  skip_before_action :verify_authenticity_token, only: :send_line_notification
-  before_action :authenticate_request
+  before_action :authenticate_user!, only: :set_current_user
+  skip_before_action :verify_authenticity_token, only: [:send_line_notification, :send_notification]
+  before_action :authenticate_request, only: [:send_line_notification, :send_notification]
   require "net/http"
   require "uri"
 
   def send_notification
     events = Event.joins(:participants)
-                  .where(participants: { user_id: current_user.id })
+                  .where(participants: { user_id: @user.id })
                   .where("date >= ? AND date <= ?", Time.zone.tomorrow.beginning_of_day, Time.zone.tomorrow.end_of_day)
 
-    if events.any? && current_user.uid.present?
+    if events.any? && @user.uid.present?
       events.each do |event|
-        send_line_notification(event, current_user.uid)
+        send_line_notification(event, @user.uid)
       end
     end
 
@@ -51,5 +51,9 @@ class LineNotificationController < ApplicationController
     unless token == ENV["API_TOKEN"]
       render json: { error: "Unauthorized" }, status: :unauthorized
     end
+  end
+
+  def set_current_user
+    @user = current_user
   end
 end
