@@ -74,7 +74,7 @@ jobs:
         run: bundle install
 
       - name: Set up database
-          export DATABASE_URL=postgres://postgres:password@postgres:5432/myapp_test
+          export DATABASE_URL=postgres://postgres:password@db:5432/myapp_test
           ./wait-for-it.sh postgres:5432 --timeout=30 --strict -- echo "PostgreSQL is up"
         run: |
           bin/rails db:create RAILS_ENV=test
@@ -84,7 +84,8 @@ jobs:
       - name: Run tests
         env:
           RAILS_ENV: test
-          DATABASE_URL: postgres://postgres:postgres@localhost:5432/myapp_test
+          DATABASE_URL: postgres://postgres:password@db:5432/myapp_test
+        # DATABASE_URL: postgres://postgres:postgres@localhost:5432/myapp_test
           # REDIS_URL: redis://localhost:6379/0
         # run: bin/rails db:test:prepare test test:system
         run: bundle exec rspec
