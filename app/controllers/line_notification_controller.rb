@@ -1,19 +1,25 @@
 class LineNotificationController < ApplicationController
-  before_action :authenticate_user!, only: :set_current_user
-  before_action :set_current_user, only: :send_notification
-  skip_before_action :verify_authenticity_token, only: [:send_line_notification, :send_notification]
-  before_action :authenticate_request, only: [:send_line_notification, :send_notification]
+  skip_before_action :verify_authenticity_token, only: [ :send_notification ]
+  before_action :authenticate_request, only: [ :send_notification ]
   require "net/http"
   require "uri"
 
   def send_notification
-    events = Event.joins(:participants)
-                  .where(participants: { user_id: @user.id })
-                  .where("date >= ? AND date <= ?", Time.zone.tomorrow.beginning_of_day, Time.zone.tomorrow.end_of_day)
+    users = User.joins(participants: :event)
+                .where(events: { date: Time.zone.tomorrow.all_day })
+                .distinct
 
-    if events.any? && @user.uid.present?
-      events.each do |event|
-        send_line_notification(event, @user.uid)
+    if users.any?
+      users.each do |user|
+        events = Event.joins(:participants)
+                      .where(participants: { user_id: user.id })
+                      .where("date >= ? AND date <= ?", Time.zone.tomorrow.beginning_of_day, Time.zone.tomorrow.end_of_day)
+
+        if events.any?
+          events.each do |event|
+            send_line_notification(event, user.uid) if user.uid.present?
+          end
+        end
       end
     end
 
@@ -32,12 +38,14 @@ class LineNotificationController < ApplicationController
       "Authorization" => "Bearer #{ENV['LINE_CHANNEL_TOKEN']}"
     })
 
+    event_url = Rails.application.routes.url_helpers.event_url(event, host: "https://event-station.onrender.com")
+
     message = {
       to: recipient_uid,
       messages: [
         {
           type: "text",
-          text: "明日開催予定のイベント「#{event.name}」に参加予定です！お忘れなく。#{event_path(event)}"
+          text: "明日開催予定のイベント「#{event.name}」に参加予定です！お忘れなく。\n#{event_url}"
         }
       ]
     }
@@ -52,9 +60,5 @@ class LineNotificationController < ApplicationController
     unless token == ENV["API_TOKEN"]
       render json: { error: "Unauthorized" }, status: :unauthorized
     end
-  end
-
-  def set_current_user
-    @user = current_user
   end
 end
