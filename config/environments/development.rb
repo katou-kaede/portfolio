@@ -84,6 +84,6 @@ Rails.application.configure do
   # config.generators.apply_rubocop_autocorrect_after_generate!
 
   # ngrokで発行したホスト名をホワイトリストに許可
-  # config.hosts << "ef39-106-146-208-35.ngrok-free.app"
+  # config.hosts << "76b6-59-132-141-162.ngrok-free.app"
   # https://event-station.onrender.com/users/auth/line/callback
 end
