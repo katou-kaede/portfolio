@@ -1,5 +1,5 @@
-<div class="container-fluid bg-body-tertiary min-vh-100">
-  <div class="row mx-4">
+<div class="container-fluid bg-body-tertiary" style="min-height: 80vh;">
+  <div class="row mx-md-4 mx-2">
     <h2 class="col-12 my-4">参加イベントカレンダー</h2>
     <%= month_calendar events: @events do |date, events| %>
       <div class="calendar-day">
@@ -9,8 +9,8 @@
 
         <% events.each do |event| %>
           <div>
-            <%= link_to event_path(event), class: 'btn btn-warning btn-sm', style: '--bs-btn-padding-y: .1rem; --bs-btn-padding-x: .25rem; --bs-btn-font-size: .75rem;' do %>
-              <%= event.date.strftime("%H:%M") %> - <%= event.name %>
+            <%= link_to event_path(event), class: 'btn btn-warning btn-sm mb-1', style: '--bs-btn-padding-y: .1rem; --bs-btn-padding-x: .25rem; --bs-btn-font-size: .75rem; width: 100%; white-space: nowrap; overflow: hidden;' do %>
+              <%= event.name %>
             <% end %>
           </div>
         <% end %>
