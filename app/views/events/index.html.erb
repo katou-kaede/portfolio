@@ -1,5 +1,5 @@
 <div class="container-fluid bg-body-tertiary min-vh-100">
-  <div class="row mx-4">
+  <div class="row mx-md-4 mx-2">
     <div class="d-flex justify-content-between align-items-center mb-4">
       <h2 class="my-4">イベント一覧</h2>
       <% if current_user.present? %>
@@ -12,7 +12,7 @@
     <!-- 検索フォーム -->
     <%= form_with url: events_path, method: :get, local: true do |f| %>
       <div class="row mb-4 justify-content-center">
-        <div class="col-6">
+        <div class="col-12 col-md-6 d-flex flex-column gap-1">
           <div class="form-group">
             <%= f.text_field :search, class: 'form-control', placeholder: "イベント名で検索" %>
           </div>
@@ -23,12 +23,12 @@
             <%= f.text_field :location, class: 'form-control', placeholder: "開催場所で検索" %>
           </div>
         </div>
-        <div class="col-3 d-flex align-items-center">
+        <div class="col-12 col-md-4 d-flex align-items-center gap-2 mt-3 mt-md-0">
           <div class="form-group ">
             <%= f.submit "検索", class: "btn btn-primary" %>
           </div>
           <div class="mx-4 form-check form-check-inline">
-            <%= f.check_box :participating, class: 'form-check-input', id: 'participation_filter' if current_user.present? %>
+            <%= f.check_box :participating, { class: 'form-check-input', id: 'participation_filter', checked: params[:participating] == '1', onchange: 'this.form.submit();' }, '1', '0' if current_user.present? %>
             <%= f.label :participating, "参加中", class: 'form-check-label' if current_user.present? %>
           </div>
         </div>

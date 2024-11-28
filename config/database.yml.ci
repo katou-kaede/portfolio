@@ -8,4 +8,4 @@ default: &default
 
 test:
   <<: *default
-  database: my_app_test
+  database: myapp_test

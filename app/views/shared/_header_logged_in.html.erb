@@ -1,59 +1,68 @@
 <header>
-    <div class="px-3 py-2 bg-dark text-white border-bottom">
-        <div class="container">
-            <div class="d-flex flex-wrap align-items-center justify-content-between">
-                <a href="/" class="d-flex align-items-center my-2 my-lg-0 me-lg-auto text-white text-decoration-none">
-                    <h1  style="font-size: 2rem;">Event Station</h1>
-                </a>
+	<div class="px-3 py-2 bg-dark text-white border-bottom">
+		<div class="container">
+			<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 
-                <ul class="nav col-12 col-lg-auto my-2 justify-content-between my-md-0 text-small">
-                    <li>
-                        <a href="#" class="nav-link text-white d-flex flex-column align-items-center dropdown-toggle" id="eventDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="bi bi-calendar-event-fill d-block mx-auto mb-1" style="font-size: 1.5rem;"></i>
-                            イベント
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="eventDropdown">
-                            <li>
-                                <%= link_to 'イベント一覧', events_path, class: 'dropdown-item' %>
-                            </li>
-                            <li>
-                                <%= link_to '過去のイベント一覧', past_events_path, class: 'dropdown-item' %>
-                            </li>
-                            <li>
-                                <%= link_to '参加イベントカレンダー', calendar_events_path, class: 'dropdown-item' %>
-                            </li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a href="#" class="nav-link text-white d-flex flex-column align-items-center dropdown-toggle" id="groupDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="bi bi-people-fill d-block mx-auto mb-1" style="font-size: 1.5rem;"></i>
-                            フレンド
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="grouprDropdown">
-                            <li>
-                                <%= link_to 'フレンドリスト', users_path, class: 'dropdown-item' %>
-                            </li>
-                            <li>
-                                <%= link_to 'グループリスト', groups_path, class: 'dropdown-item' %>
-                            </li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a href="#" class="nav-link text-white d-flex flex-column align-items-center dropdown-toggle" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="bi bi-person-circle d-block mx-auto mb-1" style="font-size: 1.5rem;"></i>
-                            <%= user_signed_in? ? (current_user.profile.present? ? current_user.profile.name : "NoName") : "NoName" %>
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="userDropdown">
-                            <li>
-                                <%= link_to 'ログアウト', destroy_user_session_path, method: :delete, class: 'dropdown-item', data: { turbo_method: :delete } %>
-                            </li>
-                            <li>
-                                <%= link_to 'マイページ', user_path(current_user), class: 'dropdown-item' %>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </div>
+				<a href="/" class="d-flex align-items-center my-2 my-lg-0 me-lg-auto text-white text-decoration-none">
+					<h1 style="font-size: 2rem;">Event Station</h1>
+				</a>
+
+				<!-- ハンバーガーメニュー -->
+				<button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+
+				<!-- メニュー部分 -->
+				<div class="collapse navbar-collapse" id="navbarNavDropdown">
+					<ul class="navbar-nav ms-auto flex-row col-12 col-lg-auto my-2 justify-content-between my-md-0 text-small">
+						<li class="nav-item dropdown">
+							<a href="#" class="nav-link text-white d-flex flex-column align-items-center dropdown-toggle" id="eventDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+								<i class="bi bi-calendar-event-fill d-block mx-auto mb-1" style="font-size: 1.5rem;"></i>
+								イベント
+							</a>
+							<ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="eventDropdown">
+								<li>
+									<%= link_to 'イベント一覧', events_path, class: 'dropdown-item' %>
+								</li>
+								<li>
+									<%= link_to '過去のイベント一覧', past_events_path, class: 'dropdown-item' %>
+								</li>
+								<li>
+									<%= link_to '参加イベントカレンダー', calendar_events_path, class: 'dropdown-item' %>
+								</li>
+							</ul>
+						</li>
+						<li class="nav-item dropdown">
+								<a href="#" class="nav-link text-white d-flex flex-column align-items-center dropdown-toggle" id="groupDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+										<i class="bi bi-people-fill d-block mx-auto mb-1" style="font-size: 1.5rem;"></i>
+										フレンド
+								</a>
+								<ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="groupDropdown">
+										<li>
+												<%= link_to 'フレンドリスト', users_path, class: 'dropdown-item' %>
+										</li>
+										<li>
+												<%= link_to 'グループリスト', groups_path, class: 'dropdown-item' %>
+										</li>
+								</ul>
+						</li>
+						<li class="nav-item dropdown">
+							<a href="#" class="nav-link text-white d-flex flex-column align-items-center dropdown-toggle" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+								<i class="bi bi-person-circle d-block mx-auto mb-1" style="font-size: 1.5rem;"></i>
+								<%= user_signed_in? ? (current_user.profile.present? ? current_user.profile.name : "NoName") : "NoName" %>
+							</a>
+							<ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="userDropdown">
+								<li>
+									<%= link_to 'ログアウト', destroy_user_session_path, method: :delete, class: 'dropdown-item', data: { turbo_method: :delete } %>
+								</li>
+								<li>
+									<%= link_to 'マイページ', user_path(current_user), class: 'dropdown-item' %>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</div>
+			</nav>
+		</div>
+	</div>
 </header>
