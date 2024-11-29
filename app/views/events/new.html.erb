@@ -11,15 +11,8 @@
 
       <div class="mb-3">
         <%= f.label :date, "開催日時" %><br />
-
-        <!-- 年月日 -->
-        <div class="d-inline-flex gap-2 mb-2 mb-md-0">
-          <%= f.datetime_select :date, { discard_hour: true, discard_minute: true }, class: 'form-select w-auto' %>
-        </div>
-
-        <!-- 時間と分 -->
-        <div class="d-inline-flex gap-2 mx-md-3">
-          <%= f.datetime_select :date, { discard_year: true, discard_month: true, discard_day: true }, class: 'form-select w-auto' %>
+        <div class="d-flex flex-column flex-sm-row gap-2">
+          <%= f.datetime_select :date, {}, class: 'form-select w-100' %>
         </div>
       </div>
 

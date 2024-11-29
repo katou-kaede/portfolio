@@ -42,6 +42,16 @@ class EventsController < ApplicationController
     @event = current_user.events.build(event_params)
     @event.user_id = current_user.id
 
+    if params[:event][:year].present? && params[:event][:month].present? && params[:event][:day].present?
+      @event.date = DateTime.new(
+        params[:event][:year].to_i,
+        params[:event][:month].to_i,
+        params[:event][:day].to_i,
+        params[:event][:hour].to_i,
+        params[:event][:minute].to_i
+      )
+    end
+
     if params[:event][:visibility] == "general"
       @event.group_id = nil
     elsif params[:event][:group_id] == "all_friends"
