@@ -83,6 +83,9 @@ jobs:
         # bin/rails db:schema:load RAILS_ENV=test
         # bin/rails db:migrate RAILS_ENV=test
 
+      - name: Precompile assets
+        run: bundle exec rails assets:precompile
+
       - name: Run tests
         env:
           RAILS_ENV: test
