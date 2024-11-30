@@ -36,7 +36,7 @@
 
           <% if @event.hosted_by?(current_user) %>
             <div class="card-text mb-3">
-              <strong>公開範囲:</strong> <%= t("activerecord.attributes.event.visibility.#{@event.visibility}") %>
+              <strong>公開範囲:</strong> <%= t("activerecord.attributes.event.visibility_options.#{@event.visibility}") %>
             </div>
 
             <div class="card-text mb-3">
