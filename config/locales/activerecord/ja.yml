@@ -16,8 +16,8 @@ ja:
         date: "日時"
         location: "場所"
         capacity: "定員"
-        visibility: "公開範囲"
-        visibility:
+        visibility_label: "公開範囲"
+        visibility_options:
           general: "一般公開"
           limited: "限定公開"
         description: "詳細"

@@ -32,7 +32,7 @@ RSpec.describe Event, type: :model do
     end
 
     it 'visibility（公開範囲）が必須であり、特定の値のみ許可されること' do
-      expect(event).to validate_inclusion_of(:visibility).in_array(%w[general limited])
+      expect(event).to validate_inclusion_of(:visibility).in_array(['general', 'limited'])
     end
 
     it 'status（状態）が特定の値のみ許可されること' do
