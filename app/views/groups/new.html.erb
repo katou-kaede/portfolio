@@ -1,5 +1,5 @@
-<div class="container-fluid bg-body-tertiary min-vh-100">
-  <div class="row mx-4">
+<div class="container-fluid bg-body-tertiary" style="min-height: 80vh;">
+  <div class="row mx-md-4 mx-2">
     <h2 class="col-12 my-4">グループ作成</h2>
 
     <%= form_for @group, data: { turbo: false } do |f| %>
@@ -19,7 +19,7 @@
         <button type="button" id="add-member" class="btn btn-secondary mt-2">追加</button>
       </div>
 
-      <div id="selected-members" class="mb-3 d-flex">
+      <div id="selected-members" class="mb-3 d-flex flex-wrap">
         <!-- 選択されたメンバーがここに表示される -->
       </div>
 
