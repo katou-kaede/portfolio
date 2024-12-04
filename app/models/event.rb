@@ -28,7 +28,8 @@ class Event < ApplicationRecord
 
   # 募集状態を更新するメソッド
   def update_registration_status
-    if date.past? || (capacity.present? && participants.count >= capacity)
+   # if date.past? || (capacity.present? && participants.count >= capacity)
+   if date.past?
       close_registration
     else
       open_registration
@@ -39,7 +40,7 @@ class Event < ApplicationRecord
   def registration_open?
     return false if status == "closed"
     return false if date.past? # 過去のイベントは募集終了
-    return false if capacity.present? && participants.count >= capacity # 定員に達しているイベントは募集終了
+    # return false if capacity.present? && participants.count >= capacity # 定員に達しているイベントは募集終了
 
     true # それ以外は募集中
   end
