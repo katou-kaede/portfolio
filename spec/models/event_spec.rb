@@ -81,11 +81,11 @@ RSpec.describe Event, type: :model do
     end
 
     # it '定員に達している場合、募集を終了すること' do
-      # event.capacity = 1
-      # event.save
-      # create(:participant, event: event, user: create(:user))
-      # event.update_registration_status
-      # expect(event.status).to eq("closed")
+    # event.capacity = 1
+    # event.save
+    # create(:participant, event: event, user: create(:user))
+    # event.update_registration_status
+    # expect(event.status).to eq("closed")
     # end
 
     it '条件が満たされている場合、募集を開始すること' do
@@ -106,10 +106,10 @@ RSpec.describe Event, type: :model do
     end
 
     # it '定員に達している場合、falseを返すこと' do
-      # event.capacity = 1
-      # event.save
-      # create(:participant, event: event, user: create(:user))
-      # expect(event.registration_open?).to be false
+    # event.capacity = 1
+    # event.save
+    # create(:participant, event: event, user: create(:user))
+    # expect(event.registration_open?).to be false
     # end
 
     it 'それ以外の場合、trueを返すこと' do
