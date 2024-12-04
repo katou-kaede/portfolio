@@ -31,9 +31,9 @@ class Event < ApplicationRecord
    # if date.past? || (capacity.present? && participants.count >= capacity)
    if date.past?
       close_registration
-    else
+   else
       open_registration
-    end
+   end
   end
 
   # 募集中かどうかを判定するメソッド
